@@ -4,7 +4,7 @@ module: ucode
 origin_type: c_source
 token_count: 1601
 source_file: L1-raw/ucode/c_source-api-module-digest.md
-last_pipeline_run: '2026-03-28T11:59:43.422282+00:00'
+last_pipeline_run: '2026-03-29T21:42:16.100525+00:00'
 source_commit: unknown
 source_url: https://github.com/nicowillis/ucode/blob/unknown/lib/digest.c
 source_locator: lib/digest.c
@@ -21,7 +21,7 @@ ai_related_topics:
 
 > **Source:** [https://github.com/nicowillis/ucode/blob/unknown/lib/digest.c](https://github.com/nicowillis/ucode/blob/unknown/lib/digest.c)
 > **Kind:** c_source | **Commit:** unknown | **Method:** normalized
-> **Normalized:** 2026-03-28
+> **Normalized:** 2026-03-29
 
 # ucode module: digest
 

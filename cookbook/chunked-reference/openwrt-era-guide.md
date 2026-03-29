@@ -4,8 +4,8 @@ module: cookbook
 origin_type: authored
 token_count: 2653
 source_file: L1-raw/cookbook/openwrt-era-guide.md
-last_pipeline_run: '2026-03-28T11:59:43.422282+00:00'
-source_locator: content/cookbook-source/openwrt-era-guide.md
+last_pipeline_run: '2026-03-29T21:42:16.100525+00:00'
+source_locator: static/cookbook-source/openwrt-era-guide.md
 description: Reference for identifying which OpenWrt era (legacy, transitional, or
   current) a given pattern belongs to, so AI tools produce era-appropriate recommendations.
 era_status: current
@@ -24,9 +24,9 @@ reviewed_by: placeholder
 last_reviewed: '2026-03-23'
 ---
 
-> **Source:** `content/cookbook-source/openwrt-era-guide.md`
+> **Source:** `static/cookbook-source/openwrt-era-guide.md`
 > **Kind:** authored | **Method:** hand-authored
-> **Normalized:** 2026-03-28
+> **Normalized:** 2026-03-29
 
 # OpenWrt Era Guide
 

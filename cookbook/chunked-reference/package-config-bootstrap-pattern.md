@@ -4,8 +4,8 @@ module: cookbook
 origin_type: authored
 token_count: 1022
 source_file: L1-raw/cookbook/package-config-bootstrap-pattern.md
-last_pipeline_run: '2026-03-28T11:59:43.422282+00:00'
-source_locator: content/cookbook-source/package-config-bootstrap-pattern.md
+last_pipeline_run: '2026-03-29T21:42:16.100525+00:00'
+source_locator: static/cookbook-source/package-config-bootstrap-pattern.md
 description: 'Correct pattern for package-owned OpenWrt configuration: ship predictable
   /etc/config files, use /etc/uci-defaults only for one-shot detection or migration,
   and keep service application in init or procd logic.'
@@ -23,9 +23,9 @@ reviewed_by: placeholder
 last_reviewed: '2026-03-28'
 ---
 
-> **Source:** `content/cookbook-source/package-config-bootstrap-pattern.md`
+> **Source:** `static/cookbook-source/package-config-bootstrap-pattern.md`
 > **Kind:** authored | **Method:** hand-authored
-> **Normalized:** 2026-03-28
+> **Normalized:** 2026-03-29
 
 # Package Config Bootstrap Pattern
 

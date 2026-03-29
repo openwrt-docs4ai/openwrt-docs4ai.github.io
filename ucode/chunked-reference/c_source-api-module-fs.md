@@ -4,7 +4,7 @@ module: ucode
 origin_type: c_source
 token_count: 11211
 source_file: L1-raw/ucode/c_source-api-module-fs.md
-last_pipeline_run: '2026-03-28T11:59:43.422282+00:00'
+last_pipeline_run: '2026-03-29T21:42:16.100525+00:00'
 source_commit: unknown
 source_url: https://github.com/nicowillis/ucode/blob/unknown/lib/fs.c
 source_locator: lib/fs.c
@@ -13,7 +13,7 @@ language: c
 
 > **Source:** [https://github.com/nicowillis/ucode/blob/unknown/lib/fs.c](https://github.com/nicowillis/ucode/blob/unknown/lib/fs.c)
 > **Kind:** c_source | **Commit:** unknown | **Method:** normalized
-> **Normalized:** 2026-03-28
+> **Normalized:** 2026-03-29
 
 # ucode module: fs
 

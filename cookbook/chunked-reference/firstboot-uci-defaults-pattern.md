@@ -4,8 +4,8 @@ module: cookbook
 origin_type: authored
 token_count: 2815
 source_file: L1-raw/cookbook/firstboot-uci-defaults-pattern.md
-last_pipeline_run: '2026-03-28T11:59:43.422282+00:00'
-source_locator: content/cookbook-source/firstboot-uci-defaults-pattern.md
+last_pipeline_run: '2026-03-29T21:42:16.100525+00:00'
+source_locator: static/cookbook-source/firstboot-uci-defaults-pattern.md
 description: Correct pattern for first-boot and migration-time configuration changes
   in OpenWrt using /etc/uci-defaults, including sequencing, idempotency, helper usage,
   and the boundary between config mutation and service orchestration.
@@ -27,9 +27,9 @@ reviewed_by: placeholder
 last_reviewed: '2026-03-28'
 ---
 
-> **Source:** `content/cookbook-source/firstboot-uci-defaults-pattern.md`
+> **Source:** `static/cookbook-source/firstboot-uci-defaults-pattern.md`
 > **Kind:** authored | **Method:** hand-authored
-> **Normalized:** 2026-03-28
+> **Normalized:** 2026-03-29
 
 # First-Boot uci-defaults Pattern
 

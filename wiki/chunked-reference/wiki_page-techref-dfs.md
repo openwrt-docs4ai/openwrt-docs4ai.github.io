@@ -4,14 +4,14 @@ module: wiki
 origin_type: wiki_page
 token_count: 694
 source_file: L1-raw/wiki/wiki_page-techref-dfs.md
-last_pipeline_run: '2026-03-28T11:59:43.422282+00:00'
+last_pipeline_run: '2026-03-29T21:42:16.100525+00:00'
 source_url: https://openwrt.org/docs/techref/dfs
 language: text
 ---
 
 > **Source:** [https://openwrt.org/docs/techref/dfs](https://openwrt.org/docs/techref/dfs)
 > **Kind:** wiki_page | **Method:** scraped
-> **Normalized:** 2026-03-28
+> **Normalized:** 2026-03-29
 
 # DFS
 

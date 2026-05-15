@@ -4,7 +4,7 @@ module: cookbook
 origin_type: authored
 token_count: 2833
 source_file: L1-raw/cookbook/common-ai-mistakes.md
-last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
+last_pipeline_run: '2026-05-15T22:25:42.045312+00:00'
 source_locator: static/cookbook-source/common-ai-mistakes.md
 description: Documents seven recurring categories of era-mismatched or API-incorrect
   patterns that AI tools produce when generating OpenWrt code, with WRONG/CORRECT

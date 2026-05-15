@@ -3,7 +3,7 @@ module: uci
 total_token_count: 420
 section_count: 1
 is_monolithic: true
-generated: '2026-05-15T22:05:35.320175+00:00'
+generated: '2026-05-15T22:26:00.756435+00:00'
 ---
 
 # uci Bundled Reference

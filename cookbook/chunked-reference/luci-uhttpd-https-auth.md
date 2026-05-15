@@ -4,7 +4,7 @@ module: cookbook
 origin_type: authored
 token_count: 1547
 source_file: L1-raw/cookbook/luci-uhttpd-https-auth.md
-last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
+last_pipeline_run: '2026-05-15T22:25:42.045312+00:00'
 source_locator: static/cookbook-source/luci-uhttpd-https-auth.md
 description: Explains the current OpenWrt login and transport path across LuCI, uhttpd,
   rpcd sessions, cookies, bearer auth, and HTTPS configuration, including the main

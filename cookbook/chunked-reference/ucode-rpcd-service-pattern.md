@@ -4,7 +4,7 @@ module: cookbook
 origin_type: authored
 token_count: 1674
 source_file: L1-raw/cookbook/ucode-rpcd-service-pattern.md
-last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
+last_pipeline_run: '2026-05-15T22:25:42.045312+00:00'
 source_locator: static/cookbook-source/ucode-rpcd-service-pattern.md
 description: Correct pattern for exposing OpenWrt backend methods through rpcd using
   ucode, including method shape, ACL boundaries, structured return values, and graceful

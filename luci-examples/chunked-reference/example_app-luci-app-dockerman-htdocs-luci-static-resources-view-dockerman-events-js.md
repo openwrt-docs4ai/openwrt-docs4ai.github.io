@@ -4,7 +4,7 @@ module: luci-examples
 origin_type: example_app
 token_count: 2942
 source_file: L1-raw/luci-examples/example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-events-js.md
-last_pipeline_run: '2026-05-15T22:25:42.045312+00:00'
+last_pipeline_run: '2026-05-15T22:42:53.355147+00:00'
 source_commit: unknown
 source_url: https://github.com/openwrt/luci/blob/unknown/applications/luci-app-dockerman/htdocs/luci-static/resources/view/dockerman/events.js
 source_locator: applications/luci-app-dockerman/htdocs/luci-static/resources/view/dockerman/events.js

@@ -4,7 +4,7 @@ module: wiki
 origin_type: wiki_page
 token_count: 6881
 source_file: L1-raw/wiki/wiki_page-techref-ubus.md
-last_pipeline_run: '2026-05-15T22:25:42.045312+00:00'
+last_pipeline_run: '2026-05-15T22:42:53.355147+00:00'
 source_url: https://openwrt.org/docs/techref/ubus
 language: text
 ai_summary: Explains the OpenWrt ubus inter-process communication bus, which provides a Unix-socket-based RPC mechanism for daemons to expose services and receive method calls. Covers ubus object and method registration, the ubusd broker, ubus_context lifecycle, blob_buf message encoding, ubus_lookup, ubus_invoke, ubus_register_event_handler, and the acl JSON permission system.

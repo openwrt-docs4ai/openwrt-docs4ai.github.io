@@ -4,7 +4,7 @@ module: wiki
 origin_type: wiki_page
 token_count: 736
 source_file: L1-raw/wiki/wiki_page-techref-dfs.md
-last_pipeline_run: '2026-05-15T22:25:42.045312+00:00'
+last_pipeline_run: '2026-05-15T22:42:53.355147+00:00'
 source_url: https://openwrt.org/docs/techref/dfs
 language: text
 ai_summary: The DFS (Dynamic Frequency Selection) module in OpenWrt manages the use of 5GHz WLAN channels that may overlap with weather radar frequencies, ensuring compliance with regulations such as those outlined in 802.11h. It is utilized during Automatic Channel Selection (ACS) in hostapd to identify and select available channels. Different hardware drivers provide varying levels of DFS support, including ath9k, ath10k, and mt76, with some limitations based on regulatory schemes like DFS-FCC and DFS-ETSI. Users should be aware of potential interoperability issues due to changing hardware and regulatory compliance, as well as the availability of proprietary drivers that may offer additional DFS functionality.

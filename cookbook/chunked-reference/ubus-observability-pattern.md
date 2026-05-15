@@ -4,7 +4,7 @@ module: cookbook
 origin_type: authored
 token_count: 1321
 source_file: L1-raw/cookbook/ubus-observability-pattern.md
-last_pipeline_run: '2026-05-15T22:25:42.045312+00:00'
+last_pipeline_run: '2026-05-15T22:42:53.355147+00:00'
 source_locator: static/cookbook-source/ubus-observability-pattern.md
 description: Correct pattern for publishing runtime state once through ubus and letting
   LuCI, CLI tooling, and other services consume that shared state instead of re-deriving

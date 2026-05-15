@@ -4,7 +4,7 @@ module: openwrt-hotplug
 origin_type: hotplug_event
 token_count: 1412
 source_file: L1-raw/openwrt-hotplug/hotplug_event-netifd-hotplug-events.md
-last_pipeline_run: '2026-05-15T22:25:42.045312+00:00'
+last_pipeline_run: '2026-05-15T22:42:53.355147+00:00'
 source_commit: unknown
 source_url: https://github.com/openwrt/openwrt/blob/unknown/package/**/etc/hotplug.d/*
 source_locator: package/**/etc/hotplug.d/*

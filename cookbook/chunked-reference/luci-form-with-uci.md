@@ -4,7 +4,7 @@ module: cookbook
 origin_type: authored
 token_count: 3159
 source_file: L1-raw/cookbook/luci-form-with-uci.md
-last_pipeline_run: '2026-05-15T22:25:42.045312+00:00'
+last_pipeline_run: '2026-05-15T22:42:53.355147+00:00'
 source_locator: static/cookbook-source/luci-form-with-uci.md
 description: End-to-end guide to creating a LuCI settings page that reads and writes
   UCI configuration, covering the JavaScript view, form.Map binding, rpcd plugin,

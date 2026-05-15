@@ -4,7 +4,7 @@ module: wiki
 origin_type: wiki_page
 token_count: 5457
 source_file: L1-raw/wiki/wiki_page-guide-developer-package-policies.md
-last_pipeline_run: '2026-05-15T22:25:42.045312+00:00'
+last_pipeline_run: '2026-05-15T22:42:53.355147+00:00'
 source_url: https://openwrt.org/docs/guide-developer/package-policies
 language: text
 ai_summary: OpenWrt packages are essential components of the OpenWrt system, providing software in the form of source and binary packages. A source package includes a Makefile, optional patches, and other static files, while a binary package is a tar archive containing executable artifacts and control files. Binary packages are typically generated from source packages using the OpenWrt buildroot or SDK, ensuring proper compilation and packaging. Manual assembly of binary packages is discouraged due to reproducibility and verification issues.

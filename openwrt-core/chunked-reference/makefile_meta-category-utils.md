@@ -2,9 +2,9 @@
 title: 'OpenWrt Buildroot: utils packages'
 module: openwrt-core
 origin_type: makefile_meta
-token_count: 5864
+token_count: 5862
 source_file: L1-raw/openwrt-core/makefile_meta-category-utils.md
-last_pipeline_run: '2026-04-01T13:49:08.540826+00:00'
+last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
 source_commit: unknown
 source_url: https://github.com/openwrt/openwrt/blob/unknown/package/utils
 source_locator: package/utils
@@ -25,7 +25,7 @@ ai_related_topics:
 
 > **Source:** [https://github.com/openwrt/openwrt/blob/unknown/package/utils](https://github.com/openwrt/openwrt/blob/unknown/package/utils)
 > **Kind:** makefile_meta | **Commit:** unknown | **Method:** normalized
-> **Normalized:** 2026-04-01
+> **Normalized:** 2026-05-15
 
 # OpenWrt Buildroot: utils packages
 
@@ -131,7 +131,7 @@ checkpolicy is the SELinux policy compiler. It uses libsepol to generate the bin
 
 | Field | Value |
 |---|---|
-| Version | 3.9 |
+| Version | 3.10 |
 | License | GPL-2.0-or-later |
 | Maintainer | Thomas Petazzoni <thomas.petazzoni@bootlin.com> |
 | Source URL | https://github.com/SELinuxProject/selinux/releases/download/$(PKG_VERSION) |
@@ -204,7 +204,7 @@ This package contains essential ext2 filesystem utilities which consists of e2fs
 
 | Field | Value |
 |---|---|
-| Version | 1.47.3 |
+| Version | 1.47.4 |
 | License | GPL-2.0 |
 | Source URL | @KERNEL/linux/kernel/people/tytso/e2fsprogs/v$(PKG_VERSION)/ |
 
@@ -433,7 +433,7 @@ Utilities for manipulating memory technology devices.
 
 | Field | Value |
 |---|---|
-| Version | 2.3.0 |
+| Version | 2.3.1 |
 | License | GPLv2 |
 | Maintainer | John Crispin <john@phrozen.org> include $(INCLUDE_DIR)/[package.mk](../../openwrt-core/chunked-reference/makefile_meta-include-mk.md) define Package/mtd-utils/Default SECTION:=utils CATEGORY:=Utilities URL:=http://www.linux-mtd.infradead.org/ DEPENDS:=@NAND_SUPPORT en |
 | Source URL | https://infraroot.at/pub/mtd/ |
@@ -506,7 +506,7 @@ Policycoreutils is a collection of policy utilities (originally the "core" set o
 
 | Field | Value |
 |---|---|
-| Version | 3.9 |
+| Version | 3.10 |
 | License | GPL-2.0-or-later |
 | Maintainer | Thomas Petazzoni <thomas.petazzoni@bootlin.com> |
 | Source URL | https://github.com/SELinuxProject/selinux/releases/download/$(PKG_VERSION) |
@@ -570,7 +570,7 @@ The SELinux CIL Compiler is a compiler that converts the CIL language as describ
 
 | Field | Value |
 |---|---|
-| Version | 3.9 |
+| Version | 3.10 |
 | License | BSD-2-Clause |
 | Maintainer | Dominick Grift <dominick.grift@defensec.nl> |
 | Source URL | https://github.com/SELinuxProject/selinux/releases/download/$(PKG_VERSION) |
@@ -696,8 +696,8 @@ The libblkid library is used to identify block devices (disks) as to their conte
 
 | Field | Value |
 |---|---|
-| Version | 2.41.3 |
-| Source URL | @KERNEL/linux/utils/$(PKG_NAME)/v2.41 |
+| Version | 2.42 |
+| Source URL | @KERNEL/linux/utils/$(PKG_NAME)/v2.42 |
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/utils/util-linux

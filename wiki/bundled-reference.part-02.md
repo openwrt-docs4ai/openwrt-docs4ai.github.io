@@ -1,18 +1,18 @@
 ---
 module: wiki
-total_token_count: 95689
+total_token_count: 95973
 section_count: 40
 is_monolithic: false
 is_sharded_part: true
 part_number: 2
 part_count: 2
-generated: '2026-04-01T13:49:25.808980+00:00'
+generated: '2026-05-15T22:05:35.320175+00:00'
 ---
 
 # wiki Bundled Reference (Part 2 of 2)
 
 > **Contains:** 40 documents
-> **Tokens:** ~95689 (cl100k_base)
+> **Tokens:** ~95973 (cl100k_base)
 > **Index:** [./bundled-reference.md](./bundled-reference.md)
 
 ---
@@ -512,7 +512,7 @@ This can be used to estimate which OpenWrt version is running on a router if you
 
 # DFS
 
-[Dynamic_frequency_selection](https://en.wikipedia.org/wiki/Dynamic_frequency_selection) plays a role in 5GHz frequencies that are shared with [Terminal_Doppler_Weather_Radar](https://en.wikipedia.org/wiki/Terminal_Doppler_Weather_Radar). It is related to [802.11h](https://en.wikipedia.org/wiki/IEEE_802.11h).
+[Dynamic Frequency Selection](https://en.wikipedia.org/wiki/Dynamic_frequency_selection) plays a role in 5GHz frequencies that are shared with [Terminal Doppler Weather Radar (TDWR)](https://en.wikipedia.org/wiki/Terminal_Doppler_Weather_Radar). It is related to [802.11h](https://en.wikipedia.org/wiki/IEEE_802.11h).
 
 DFS support is used during ACS/"survey" in [hostapd](/docs/guide-user/network/wifi/wireless-tool/wireless.utilities#hostapd) to find and select free WLAN channels.
 
@@ -527,6 +527,8 @@ Many countries regulate operation of the 5GHz spectrum - see [List_of_WLAN_chann
 :!: There are different DFS schemes: DFS-FCC (USA), DFS-ETSI (Europe), DFS-JP (Japan).
 
 :!: Try to use the non DFS channels if you have older wifi hardware/wifi clients.
+
+**In addition**: See also FAQ - [What does DFS mean?](/faq/what_does_dfs_mean) & [Wireless FAQ section](/tag/wireless) for more information.
 
 ## DFS support
 
@@ -818,7 +820,7 @@ The [flash.layout](/docs/techref/flash.layout) article documents how OpenWrt use
 
 System bootup is as follows: -\>[process.boot](process.boot)
 
-1.  kernel boots from a known raw partition (without a FS), scans mtd partition *rootfs* for a valid superblock and mounts the SquashFS partition (containing `/etc`) then runs `/etc/preinit`. (More info at [filesystems#technical.details](/docs/techref/filesystems#technical.details))
+1.  kernel boots from a known raw partition (without a FS), scans mtd partition *rootfs* for a valid superblock and mounts the SquashFS partition (containing `/etc`) then runs `/etc/preinit`. (More info at [filesystems#technical_details](/docs/techref/filesystems#technical_details))
 2.  `/etc/preinit` runs `/sbin/mount_root`
 3.  `mount_root` mounts the JFFS2 partition (`/overlay`) and **combines** it with the SquashFS partition (`/rom`) to create a new *virtual root filesystem* (`/`)
 4.  bootup continues with `/sbin/init`
@@ -4250,7 +4252,7 @@ It is enough to issue `service rpcd reload` to make it pick up new plugin execut
 
 The program `swconfig` allows you to configure *configurable* [Ethernet network switches](/docs/techref/hardware/switch).
 
-It is considered legacy and new switch drivers should use the DSA (distributed switch architecture) kernel framework which makes it possible to use standard userspace tools such as `ip` to configure the switches.
+It is considered legacy and new switch drivers should use the DSA [(Distributed Switch Architecture)](https://www.kernel.org/doc/html/latest/networking/dsa/dsa.html) kernel framework which makes it possible to use standard userspace tools such as `ip` to configure the switches.
 
 Make sure you can [safemode](/docs/guide-user/troubleshooting/failsafe_and_factory_reset) or TTL before changing network/switch settings
 
@@ -4817,6 +4819,29 @@ This happens to be `rpcd` at the moment, with the `http-json` interface, for fri
                 "read": {
                         "ubus": {
                                 "session": [ "access", "login" ]
+                        }
+                }
+        }
+}
+```
+
+Each method for each object can be separately allowed in the `"ubus"`-mapping. In the previous example only `ubus call session access` and `ubus call session login` are allowed. It is possible to use `*` to match multiple objects or methods. For example:
+
+1.  All methods of `session`: `"session": ["*"]`
+2.  Method `get_client` of all objects beginning with `hostapd.`: `"hostapd.*": ["get_client"]`
+
+Certain objects or methods might require other permission outside the `"ubus"`-mapping. For example reading a file requires `read` permission for the file itself. In that case the permission to only read `/tmp/dhcp.leases` might look like the following:
+
+``` yaml
+{
+        "readleases": {
+                "read": {
+                        "file": {
+                                "/tmp/dhcp.leases": ["read"]
+                        },
+                        "ubus": {
+                                "session": [ "access", "login" ],
+                                "file": ["read"]
                         }
                 }
         }
@@ -5673,9 +5698,9 @@ And examples on how to use UCI in C can be found in this thread: <https://forum.
 
 Assuming you already have the following packages installed: [install-buildsystem](/docs/guide-developer/toolchain/install-buildsystem).
 
-Additional packages required (package names for ubuntu):
+Additional packages required (package names for debian/ubuntu):
 
-    cmake pkgconf python3.13-venv valgrind
+    cmake pkgconf python3-venv valgrind
 
 Clone the repo. Run:
 

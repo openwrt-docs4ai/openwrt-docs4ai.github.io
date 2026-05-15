@@ -4,7 +4,7 @@ module: openwrt-core
 origin_type: makefile_meta
 token_count: 2083
 source_file: L1-raw/openwrt-core/makefile_meta-include-mk.md
-last_pipeline_run: '2026-04-01T13:49:08.540826+00:00'
+last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
 source_commit: unknown
 source_url: https://github.com/openwrt/openwrt/blob/unknown/include/
 source_locator: include/
@@ -31,7 +31,7 @@ ai_related_topics:
 
 > **Source:** [https://github.com/openwrt/openwrt/blob/unknown/include/](https://github.com/openwrt/openwrt/blob/unknown/include/)
 > **Kind:** makefile_meta | **Commit:** unknown | **Method:** normalized
-> **Normalized:** 2026-04-01
+> **Normalized:** 2026-05-15
 
 # OpenWrt Buildroot: Build System Include Files
 

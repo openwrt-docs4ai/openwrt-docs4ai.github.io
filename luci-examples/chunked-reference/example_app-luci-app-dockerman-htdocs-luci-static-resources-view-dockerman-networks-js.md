@@ -4,7 +4,7 @@ module: luci-examples
 origin_type: example_app
 token_count: 1998
 source_file: L1-raw/luci-examples/example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-networks-js.md
-last_pipeline_run: '2026-04-01T13:49:08.540826+00:00'
+last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
 source_commit: unknown
 source_url: https://github.com/openwrt/luci/blob/unknown/applications/luci-app-dockerman/htdocs/luci-static/resources/view/dockerman/networks.js
 source_locator: applications/luci-app-dockerman/htdocs/luci-static/resources/view/dockerman/networks.js
@@ -23,7 +23,7 @@ ai_related_topics:
 
 > **Source:** [https://github.com/openwrt/luci/blob/unknown/applications/luci-app-dockerman/htdocs/luci-static/resources/view/dockerman/networks.js](https://github.com/openwrt/luci/blob/unknown/applications/luci-app-dockerman/htdocs/luci-static/resources/view/dockerman/networks.js)
 > **Kind:** example_app | **Commit:** unknown | **Method:** normalized
-> **Normalized:** 2026-04-01
+> **Normalized:** 2026-05-15
 
 # networks.js
 ```javascript
@@ -237,7 +237,7 @@ return dm2.dv.extend({
 			const n = net.Name;
 			const _shortId = (net.Id || '').substring(0, 12);
 			const shortLink = E('a', {
-				'href': `${view.dockerman_url}/network/${net.Id}`,
+				'href': `${this.dockerman_url}/network/${net.Id}`,
 				'style': 'font-family: monospace;',
 				'title': _('Click to view this network'),
 			}, [_shortId]);

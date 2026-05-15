@@ -2,9 +2,9 @@
 title: 'OpenWrt Buildroot: boot packages'
 module: openwrt-core
 origin_type: makefile_meta
-token_count: 3710
+token_count: 3680
 source_file: L1-raw/openwrt-core/makefile_meta-category-boot.md
-last_pipeline_run: '2026-04-01T13:49:08.540826+00:00'
+last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
 source_commit: unknown
 source_url: https://github.com/openwrt/openwrt/blob/unknown/package/boot
 source_locator: package/boot
@@ -24,7 +24,7 @@ ai_related_topics:
 
 > **Source:** [https://github.com/openwrt/openwrt/blob/unknown/package/boot](https://github.com/openwrt/openwrt/blob/unknown/package/boot)
 > **Kind:** makefile_meta | **Commit:** unknown | **Method:** normalized
-> **Normalized:** 2026-04-01
+> **Normalized:** 2026-05-15
 
 # OpenWrt Buildroot: boot packages
 
@@ -80,7 +80,7 @@ ai_related_topics:
 
 | Field | Value |
 |---|---|
-| Version | 2.9 |
+| Version | 2.14 |
 | Maintainer | Vladimir Vid <vladimir.vid@sartura.hr> include $(INCLUDE_DIR)/[kernel.mk](../../openwrt-core/chunked-reference/makefile_meta-include-mk.md) include $(INCLUDE_DIR)/trusted-firmware-a.mk include $(INCLUDE_DIR)/[package.mk](../../openwrt-core/chunked-reference/makefile_meta-include-mk.md) define Trusted-Firmware-A/Default BUILD_TARGET:=m |
 
 
@@ -177,7 +177,7 @@ i.MX23/i.MX28 bootlets (for oLinuxino)
 | Field | Value |
 |---|---|
 | Version | 10.12.01 |
-| Source URL | http://trabant.uid0.hu/openwrt/ |
+| Source URL | @OPENWRT |
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/boot/imx-bootlets
@@ -205,7 +205,7 @@ The kobs-ng application writes a bootstream to [NAND](../../wiki/chunked-referen
 |---|---|
 | Version | 5.4 |
 | License | GPLv2 |
-| Source URL | http://www.freescale.com/lgfiles/NMG/MAD/YOCTO/ |
+| Source URL | @OPENWRT |
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/boot/kobs-ng
@@ -438,7 +438,7 @@ $ git format-patch -p -k --no-renames --no-binary -o $OPENWRT_ROOT/package/boot/
 
 | Field | Value |
 |---|---|
-| Version | 2026.01 |
+| Version | 2026.04 |
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/boot/uboot-mvebu
@@ -534,9 +534,9 @@ dumpimage lists and extracts data from U-Boot images. If -l is specified, dumpim
 
 | Field | Value |
 |---|---|
-| Version | 2026.01 |
+| Version | 2026.04 |
 | License | GPL-2.0 GPL-2.0+ |
-| Source URL | https://ftp.denx.de/pub/u-boot https://mirror.cyberbits.eu/u-boot ftp://ftp.denx.de/pub/u-boot |
+| Source URL | https://ftp.denx.de/pub/u-boot https://mirror.cyberbits.eu/u-boot |
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/boot/uboot-tools

@@ -4,7 +4,7 @@ module: cookbook
 origin_type: authored
 token_count: 1767
 source_file: L1-raw/cookbook/firstboot-wifi-policy.md
-last_pipeline_run: '2026-04-01T13:49:08.540826+00:00'
+last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
 source_locator: static/cookbook-source/firstboot-wifi-policy.md
 description: Focused guide to enabling or pre-seeding Wi-Fi on first boot in OpenWrt
   without turning asynchronous radio discovery into ad-hoc boot orchestration.
@@ -27,7 +27,7 @@ last_reviewed: '2026-03-28'
 
 > **Source:** `static/cookbook-source/firstboot-wifi-policy.md`
 > **Kind:** authored | **Method:** hand-authored
-> **Normalized:** 2026-04-01
+> **Normalized:** 2026-05-15
 
 # First-Boot Wi-Fi Policy
 

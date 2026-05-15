@@ -1,7 +1,7 @@
 # openwrt-core Navigation Map
 
 > **Contains:** Headers and function signatures for openwrt-core.
-> **Generated:** 2026-04-01T13:49:25.808980+00:00
+> **Generated:** 2026-05-15T22:05:35.320175+00:00
 
 ---
 
@@ -57,6 +57,8 @@
 ## uboot-tools
 ## uboot-zynq
 
+> **Summary:** The OpenWrt Buildroot firmware packages module provides various firmware options for different hardware components used in OpenWrt devices. It includes specific firmware packages like ath10k-ct-firmware, ath11k-firmware, and others, each tailored for particular chipsets and functionalities. These packages are essential for ensuring compatibility and optimal performance of wireless and networking features on supported devices. Users must be cautious about conflicts, such as those between different ath10k firmware versions, and should only select one at a time.
+> **Use Case:** Use this module when building OpenWrt images that require specific firmware for wireless chipsets or other hardware components. It is particularly useful for developers needing to customize firmware options for their devices.
 # OpenWrt Buildroot: firmware packages
 ## ath10k-ct-firmware
 ## ath11k-firmware
@@ -93,6 +95,7 @@
 ## mt7621-qtn-rgmii
 ## mwlwifi
 ## nat46
+## ntfs
 ## qca-nss-dp
 ## qca-ssdk
 ## r8101
@@ -106,6 +109,8 @@
 ## ubnt-ledbar
 ## ubootenv-nvram
 
+> **Summary:** The OpenWrt Buildroot: libs packages module provides a collection of libraries essential for various functionalities in OpenWrt. It includes libraries such as argp-standalone for argument parsing, elfutils for handling ELF files, and jansson for JSON data manipulation. Each library is maintained by different contributors and is available under various licenses, ensuring a wide range of capabilities for developers. The module facilitates the integration of these libraries into OpenWrt builds, enhancing the overall performance and feature set of the system.
+> **Use Case:** Use this module when you need to incorporate specific libraries into your OpenWrt build for enhanced functionality, such as JSON processing or advanced argument parsing.
 # OpenWrt Buildroot: libs packages
 ## argp-standalone
 ## elfutils

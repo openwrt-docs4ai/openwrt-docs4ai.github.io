@@ -1,13 +1,13 @@
 # luci-examples module
 > LuCI community application examples: full plugin source code for Docker, statistics, DDNS, and more.
-> **Total Context:** ~100272 tokens
+> **Total Context:** ~101575 tokens
 
 ## Recommended Entry Points
 
 - [map.md](./map.md): Structural map for luci-examples that prioritizes quick orientation and symbol discovery. (~4066 tokens, l3-skeleton)
-- [bundled-reference.md](./bundled-reference.md): Sharded complete reference index for luci-examples with links to smaller part files. (~211 tokens, l4-monolith)
-- [bundled-reference.part-01.md](./bundled-reference.part-01.md): Part 1 of the sharded complete reference for luci-examples when the full module exceeds the token budget. (~100136 tokens, l4-monolith-part)
-- [bundled-reference.part-02.md](./bundled-reference.part-02.md): Part 2 of the sharded complete reference for luci-examples when the full module exceeds the token budget. (~421 tokens, l4-monolith-part)
+- [bundled-reference.md](./bundled-reference.md): Sharded complete reference index for luci-examples with links to smaller part files. (~212 tokens, l4-monolith)
+- [bundled-reference.part-01.md](./bundled-reference.part-01.md): Part 1 of the sharded complete reference for luci-examples when the full module exceeds the token budget. (~99590 tokens, l4-monolith-part)
+- [bundled-reference.part-02.md](./bundled-reference.part-02.md): Part 2 of the sharded complete reference for luci-examples when the full module exceeds the token budget. (~2272 tokens, l4-monolith-part)
 
 ## Source Documents
 
@@ -19,9 +19,9 @@
 - [example_app-luci-app-dockerman-htdocs-luci-static-resources-dockerman-api-js.md](./chunked-reference/example_app-luci-app-dockerman-htdocs-luci-static-resources-dockerman-api-js.md): The api.js module provides a JavaScript interface for interacting with Docker through the LuCI web interface in OpenWrt. (~5921 tokens, l2-source)
 - [example_app-luci-app-dockerman-htdocs-luci-static-resources-dockerman-common-js.md](./chunked-reference/example_app-luci-app-dockerman-htdocs-luci-static-resources-dockerman-common-js.md): The common.js module is part of the luci-examples application and provides JavaScript functions for interacting with Docker containers through the LuCI interface in OpenWrt. (~11882 tokens, l2-source)
 - [example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-configuration-js.md](./chunked-reference/example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-configuration-js.md): The configuration.js module is part of the luci-examples package and provides a JavaScript interface for configuring Docker settings within the LuCI web interface. (~1336 tokens, l2-source)
-- [example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-container-js.md](./chunked-reference/example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-container-js.md): The container.js module is a JavaScript component for the Luci interface of OpenWrt, specifically designed for managing Docker containers. (~18277 tokens, l2-source)
-- [example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-container-new-js.md](./chunked-reference/example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-container-new-js.md): The container_new.js module is part of the Luci framework for managing Docker containers within OpenWrt. (~9374 tokens, l2-source)
-- [example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-containers-js.md](./chunked-reference/example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-containers-js.md): The containers.js module is a JavaScript component for the LuCI interface of OpenWrt that manages Docker containers. (~3219 tokens, l2-source)
+- [example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-container-js.md](./chunked-reference/example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-container-js.md): The container.js module is a JavaScript component for the Luci interface of OpenWrt, specifically designed for managing Docker containers. (~18562 tokens, l2-source)
+- [example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-container-new-js.md](./chunked-reference/example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-container-new-js.md): The container_new.js module is part of the Luci framework for managing Docker containers within OpenWrt. (~10012 tokens, l2-source)
+- [example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-containers-js.md](./chunked-reference/example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-containers-js.md): The containers.js module is a JavaScript component for the LuCI interface of OpenWrt that manages Docker containers. (~3599 tokens, l2-source)
 - [example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-events-js.md](./chunked-reference/example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-events-js.md): The events.js module is part of the Luci Docker Manager application for OpenWrt, designed to handle Docker events and display them in a user-friendly interface. (~2942 tokens, l2-source)
 - [example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-images-js.md](./chunked-reference/example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-images-js.md): The images.js module is part of the Luci Docker Manager application for OpenWrt, providing functionalities to manage Docker images through a web interface. (~6386 tokens, l2-source)
 - [example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-network-js.md](./chunked-reference/example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-network-js.md): The network.js module is a JavaScript component designed for the Docker manager in the LuCI interface of OpenWrt. (~1465 tokens, l2-source)

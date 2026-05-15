@@ -1,15 +1,15 @@
 ---
 module: openwrt-core
-total_token_count: 23147
+total_token_count: 23222
 section_count: 7
 is_monolithic: true
-generated: '2026-04-01T13:49:25.808980+00:00'
+generated: '2026-05-15T22:05:35.320175+00:00'
 ---
 
 # openwrt-core Bundled Reference
 
 > **Contains:** 7 documents concatenated
-> **Tokens:** ~23147 (cl100k_base)
+> **Tokens:** ~23222 (cl100k_base)
 
 ---
 
@@ -67,7 +67,7 @@ generated: '2026-04-01T13:49:25.808980+00:00'
 
 | Field | Value |
 |---|---|
-| Version | 2.9 |
+| Version | 2.14 |
 | Maintainer | Vladimir Vid <vladimir.vid@sartura.hr> include $(INCLUDE_DIR)/[kernel.mk](../openwrt-core/chunked-reference/makefile_meta-include-mk.md) include $(INCLUDE_DIR)/trusted-firmware-a.mk include $(INCLUDE_DIR)/[package.mk](../openwrt-core/chunked-reference/makefile_meta-include-mk.md) define Trusted-Firmware-A/Default BUILD_TARGET:=m |
 
 
@@ -164,7 +164,7 @@ i.MX23/i.MX28 bootlets (for oLinuxino)
 | Field | Value |
 |---|---|
 | Version | 10.12.01 |
-| Source URL | http://trabant.uid0.hu/openwrt/ |
+| Source URL | @OPENWRT |
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/boot/imx-bootlets
@@ -192,7 +192,7 @@ The kobs-ng application writes a bootstream to [NAND](../wiki/chunked-reference/
 |---|---|
 | Version | 5.4 |
 | License | GPLv2 |
-| Source URL | http://www.freescale.com/lgfiles/NMG/MAD/YOCTO/ |
+| Source URL | @OPENWRT |
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/boot/kobs-ng
@@ -425,7 +425,7 @@ $ git format-patch -p -k --no-renames --no-binary -o $OPENWRT_ROOT/package/boot/
 
 | Field | Value |
 |---|---|
-| Version | 2026.01 |
+| Version | 2026.04 |
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/boot/uboot-mvebu
@@ -521,9 +521,9 @@ dumpimage lists and extracts data from U-Boot images. If -l is specified, dumpim
 
 | Field | Value |
 |---|---|
-| Version | 2026.01 |
+| Version | 2026.04 |
 | License | GPL-2.0 GPL-2.0+ |
-| Source URL | https://ftp.denx.de/pub/u-boot https://mirror.cyberbits.eu/u-boot ftp://ftp.denx.de/pub/u-boot |
+| Source URL | https://ftp.denx.de/pub/u-boot https://mirror.cyberbits.eu/u-boot |
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/boot/uboot-tools
@@ -627,7 +627,7 @@ This package contains the microcode needed to use the network engines in IXP4xx 
 | Field | Value |
 |---|---|
 | Version | 2.4 |
-| Source URL | http://downloads.openwrt.org/sources |
+| Source URL | @OPENWRT |
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/firmware/ixp4xx-microcode
@@ -637,7 +637,7 @@ This package contains the microcode needed to use the network engines in IXP4xx 
 
 | Field | Value |
 |---|---|
-| Version | 20260309 |
+| Version | 20260410 |
 | Maintainer | Felix Fietkau <nbd@nbd.name> |
 | Source URL | @KERNEL/linux/kernel/firmware |
 
@@ -692,7 +692,7 @@ Firmware binaries for the microcontroller on the Turris Omnia router. These are 
 
 | Field | Value |
 |---|---|
-| Version | 2026.02.04 |
+| Version | 2026.03.18 |
 | License | ISC |
 | Maintainer | Felix Fietkau <nbd@nbd.name> include $(INCLUDE_DIR)/[package.mk](../openwrt-core/chunked-reference/makefile_meta-include-mk.md) define Package/wireless-regdb PKGARCH:=all SECTION:=firmware CATEGORY:=Firmware URL:=https://git.kernel.org/pub/scm/linux/kernel/git/wens |
 | Source URL | @KERNEL/software/network/wireless-regdb/ |
@@ -843,7 +843,7 @@ CFE RAM binaries for bcm63xx.
 
 | Field | Value |
 |---|---|
-| Version | 6.18.7 |
+| Version | 6.18.26 |
 | License | GPL-2.0-only |
 | Maintainer | Felix Fietkau <nbd@nbd.name> |
 | Source URL | https://github.com/openwrt/backports/releases/download/backports-v$(PKG_VERSION) |
@@ -897,6 +897,18 @@ CFE RAM binaries for bcm63xx.
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/kernel/nat46
+---
+
+## ntfs
+
+| Field | Value |
+|---|---|
+| License | GPL-2.0-or-later |
+| Maintainer | Qingfang Deng <dqfext@gmail.com> include $(INCLUDE_DIR)/[package.mk](../openwrt-core/chunked-reference/makefile_meta-include-mk.md) define KernelPackage/fs-ntfs SECTION:=kernel CATEGORY:=Kernel modules SUBMENU:=Filesystems TITLE:=NTFS file system support DEPENDS:=+ |
+| Source URL | https://github.com/namjaejeon/linux-ntfs |
+
+
+> Source: https://github.com/openwrt/openwrt/tree/master/package/kernel/ntfs
 ---
 
 ## qca-nss-dp
@@ -975,7 +987,7 @@ CFE RAM binaries for bcm63xx.
 
 | Field | Value |
 |---|---|
-| Version | 8.055.00 |
+| Version | 8.056.02 |
 | License | GPLv2 |
 | Maintainer | Alvaro Fernandez Rojas <noltari@gmail.com> include $(INCLUDE_DIR)/[kernel.mk](../openwrt-core/chunked-reference/makefile_meta-include-mk.md) include $(INCLUDE_DIR)/[package.mk](../openwrt-core/chunked-reference/makefile_meta-include-mk.md) define KernelPackage/r8168 SUBMENU:=Network Devices TITLE:=Realtek RTL8168 PCI Gigabit Eth |
 | Source URL | https://github.com/openwrt/rtl8168/releases/download/$(PKG_VERSION) |
@@ -1123,7 +1135,7 @@ libbpf is a library for loading eBPF programs and reading and manipulating eBPF 
 
 | Field | Value |
 |---|---|
-| Version | 1.6.2 |
+| Version | 1.7.0 |
 | Maintainer | Tony Ambardar <itugrok@yahoo.com> |
 | Source URL | https://github.com/libbpf/libbpf |
 
@@ -1226,7 +1238,7 @@ libmnl is a minimalistic user-space library oriented to Netlink developers. Ther
 | Version | 1.0.5 |
 | License | LGPL-2.1+ |
 | Maintainer | Jo-Philipp Wich <jo@mein.io> |
-| Source URL | http://www.netfilter.org/projects/libmnl/files ftp://ftp.netfilter.org/pub/libmnl |
+| Source URL | https://www.netfilter.org/projects/libmnl/files https://ftp.netfilter.org/pub/libmnl |
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/libs/libmnl
@@ -1256,7 +1268,7 @@ libnfnetlink is is the low-level library for netfilter related kernel/userspace 
 | Version | 1.0.2 |
 | License | GPL-2.0+ |
 | Maintainer | Jo-Philipp Wich <jo@mein.io> |
-| Source URL | http://www.netfilter.org/projects/libnfnetlink/files/ ftp://ftp.netfilter.org/pub/libnfnetlink/ |
+| Source URL | https://www.netfilter.org/projects/libnfnetlink/files/ https://ftp.netfilter.org/pub/libnfnetlink/ |
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/libs/libnfnetlink
@@ -1325,7 +1337,7 @@ libselinux is the runtime SELinux library that provides interfaces (e.g. library
 
 | Field | Value |
 |---|---|
-| Version | 3.9 |
+| Version | 3.10 |
 | License | libselinux-1.0 |
 | Maintainer | Thomas Petazzoni <thomas.petazzoni@bootlin.com> |
 | Source URL | https://github.com/SELinuxProject/selinux/releases/download/$(PKG_VERSION) |
@@ -1340,7 +1352,7 @@ libsemanage is the policy management library. It uses libsepol for binary policy
 
 | Field | Value |
 |---|---|
-| Version | 3.9 |
+| Version | 3.10 |
 | License | LGPL-2.1 |
 | Maintainer | Thomas Petazzoni <thomas.petazzoni@bootlin.com> |
 | Source URL | https://github.com/SELinuxProject/selinux/releases/download/$(PKG_VERSION) |
@@ -1355,7 +1367,7 @@ Libsepol is the binary policy manipulation library. It doesn't depend upon or us
 
 | Field | Value |
 |---|---|
-| Version | 3.9 |
+| Version | 3.10 |
 | Maintainer | Thomas Petazzoni <thomas.petazzoni@bootlin.com> |
 | Source URL | https://github.com/SELinuxProject/selinux/releases/download/$(PKG_VERSION) |
 
@@ -1480,7 +1492,7 @@ $(call Package/mbedtls/Default/description) This package contains the mbedtls li
 
 | Field | Value |
 |---|---|
-| Version | 3.6.5 |
+| Version | 3.6.6 |
 | License | GPL-2.0-or-later |
 | Source URL | https://github.com/Mbed-TLS/$(PKG_NAME)/releases/download/$(PKG_NAME)-$(PKG_VERSION) |
 
@@ -1497,7 +1509,7 @@ MPFR is a portable library written in C for arbitrary precision arithmetic on fl
 | Version | 4.2.2 |
 | License | LGPL-3.0-or-later |
 | Maintainer | Jeffery To <jeffery.to@gmail.com> |
-| Source URL | @GNU/mpfr http://www.mpfr.org/mpfr-$(PKG_VERSION) |
+| Source URL | @GNU/mpfr https://www.mpfr.org/mpfr-$(PKG_VERSION) |
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/libs/mpfr
@@ -1548,7 +1560,7 @@ $(call Package/openssl/Default/description) This package contains the OpenSSL sh
 
 | Field | Value |
 |---|---|
-| Version | 3.5.5 |
+| Version | 3.5.6 |
 | License | Apache-2.0 |
 | Maintainer | Eneas U de Queiroz <cotequeiroz@gmail.com> |
 | Source URL | https://www.openssl.org/source/ https://www.openssl.org/source/old/$(PKG_BASE)/ https://github.com/openssl/openssl/relea |
@@ -1576,7 +1588,7 @@ $(call Package/openssl/Default/description) This package contains the OpenSSL sh
 |---|---|
 | Version | 1.19 |
 | License | MIT |
-| Source URL | http://ftp.rpm.org/popt/releases/popt-1.x/ |
+| Source URL | @OPENWRT |
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/libs/popt
@@ -1661,7 +1673,7 @@ wolfSSL (formerly CyaSSL) is an SSL library optimized for small footprint, both 
 
 | Field | Value |
 |---|---|
-| Version | 5.9.0 |
+| Version | 5.9.1 |
 | License | GPL-3.0-or-later |
 | Maintainer | Eneas U de Queiroz <cotequeiroz@gmail.com> |
 | Source URL | https://github.com/wolfSSL/wolfssl/archive/v$(PKG_REAL_VERSION) |
@@ -1708,7 +1720,7 @@ zlib is a lossless data-compression library. This package includes the shared li
 
 | Field | Value |
 |---|---|
-| Version | 20250419 |
+| Version | 20260223 |
 | License | GPL-2.0-or-later MPL-2.0 |
 | Maintainer | PKG_LICENSE:=GPL-2.0-or-later MPL-2.0 |
 | Source URL | @DEBIAN/pool/main/c/ca-certificates |
@@ -1807,10 +1819,10 @@ The SELinux Reference Policy project (refpolicy) is a complete SELinux policy th
 
 | Field | Value |
 |---|---|
-| Version | 2.20250923 |
+| Version | 2.20260312 |
 | License | GPL-2.0-or-later |
 | Maintainer | Thomas Petazzoni <thomas.petazzoni@bootlin.com> |
-| Source URL | https://github.com/SELinuxProject/refpolicy/releases/download/RELEASE_2_20250923 |
+| Source URL | https://github.com/SELinuxProject/refpolicy/releases/download/RELEASE_2_20260312 |
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/system/refpolicy
@@ -2035,7 +2047,7 @@ checkpolicy is the SELinux policy compiler. It uses libsepol to generate the bin
 
 | Field | Value |
 |---|---|
-| Version | 3.9 |
+| Version | 3.10 |
 | License | GPL-2.0-or-later |
 | Maintainer | Thomas Petazzoni <thomas.petazzoni@bootlin.com> |
 | Source URL | https://github.com/SELinuxProject/selinux/releases/download/$(PKG_VERSION) |
@@ -2108,7 +2120,7 @@ This package contains essential ext2 filesystem utilities which consists of e2fs
 
 | Field | Value |
 |---|---|
-| Version | 1.47.3 |
+| Version | 1.47.4 |
 | License | GPL-2.0 |
 | Source URL | @KERNEL/linux/kernel/people/tytso/e2fsprogs/v$(PKG_VERSION)/ |
 
@@ -2337,7 +2349,7 @@ Utilities for manipulating memory technology devices.
 
 | Field | Value |
 |---|---|
-| Version | 2.3.0 |
+| Version | 2.3.1 |
 | License | GPLv2 |
 | Maintainer | John Crispin <john@phrozen.org> include $(INCLUDE_DIR)/[package.mk](../openwrt-core/chunked-reference/makefile_meta-include-mk.md) define Package/mtd-utils/Default SECTION:=utils CATEGORY:=Utilities URL:=http://www.linux-mtd.infradead.org/ DEPENDS:=@NAND_SUPPORT en |
 | Source URL | https://infraroot.at/pub/mtd/ |
@@ -2410,7 +2422,7 @@ Policycoreutils is a collection of policy utilities (originally the "core" set o
 
 | Field | Value |
 |---|---|
-| Version | 3.9 |
+| Version | 3.10 |
 | License | GPL-2.0-or-later |
 | Maintainer | Thomas Petazzoni <thomas.petazzoni@bootlin.com> |
 | Source URL | https://github.com/SELinuxProject/selinux/releases/download/$(PKG_VERSION) |
@@ -2474,7 +2486,7 @@ The SELinux CIL Compiler is a compiler that converts the CIL language as describ
 
 | Field | Value |
 |---|---|
-| Version | 3.9 |
+| Version | 3.10 |
 | License | BSD-2-Clause |
 | Maintainer | Dominick Grift <dominick.grift@defensec.nl> |
 | Source URL | https://github.com/SELinuxProject/selinux/releases/download/$(PKG_VERSION) |
@@ -2600,8 +2612,8 @@ The libblkid library is used to identify block devices (disks) as to their conte
 
 | Field | Value |
 |---|---|
-| Version | 2.41.3 |
-| Source URL | @KERNEL/linux/utils/$(PKG_NAME)/v2.41 |
+| Version | 2.42 |
+| Source URL | @KERNEL/linux/utils/$(PKG_NAME)/v2.42 |
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/utils/util-linux

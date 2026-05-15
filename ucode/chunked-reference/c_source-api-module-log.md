@@ -2,9 +2,9 @@
 title: 'ucode module: log'
 module: ucode
 origin_type: c_source
-token_count: 5098
+token_count: 5093
 source_file: L1-raw/ucode/c_source-api-module-log.md
-last_pipeline_run: '2026-04-01T13:49:08.540826+00:00'
+last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
 source_commit: unknown
 source_url: https://github.com/nicowillis/ucode/blob/unknown/lib/log.c
 source_locator: lib/log.c
@@ -22,7 +22,7 @@ ai_related_topics:
 
 > **Source:** [https://github.com/nicowillis/ucode/blob/unknown/lib/log.c](https://github.com/nicowillis/ucode/blob/unknown/lib/log.c)
 > **Kind:** c_source | **Commit:** unknown | **Method:** normalized
-> **Normalized:** 2026-04-01
+> **Normalized:** 2026-05-15
 
 # ucode module: log
 
@@ -229,8 +229,8 @@ connection tear down is not required.
 ### log.ulog\_open([channel], [facility], [ident]) ⇒ `boolean`
 Configure ulog logger.
 
-This functions configures the ulog mechanism and is analogeous to using the
-`openlog()` function in conjuncton with `syslog()`.
+This functions configures the ulog mechanism and is analogous to using the
+`openlog()` function in conjunction with `syslog()`.
 
 The `ulog_open()` function is OpenWrt specific and may not be present on
 other systems. Use `openlog()` and `syslog()` instead for portability to
@@ -293,7 +293,7 @@ use of format strings and associated arguments to construct log messages.
 
 If the `ulog_open()` function has not been called explicitly before, `ulog()`
 implicitly configures certain defaults, see
-[ulog_open()](#module_log+ulog_open) for a detailled description.
+[ulog_open()](#module_log+ulog_open) for a detailed description.
 
 If the `format` argument is not a string and not `null`, it will be
 implicitly converted to a string and logged as-is, without further format
@@ -383,7 +383,7 @@ Returns `false` if an invalid priority value was given.
 // Set threshold to "warning" or more severe
 ulog_threshold(LOG_WARNING);
 
-// This message will be supressed
+// This message will be suppressed
 ulog(LOG_DEBUG, "Testing thresholds");
 
 // Using priority name

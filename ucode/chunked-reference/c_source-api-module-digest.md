@@ -2,9 +2,9 @@
 title: 'ucode module: digest'
 module: ucode
 origin_type: c_source
-token_count: 1601
+token_count: 1833
 source_file: L1-raw/ucode/c_source-api-module-digest.md
-last_pipeline_run: '2026-04-01T13:49:08.540826+00:00'
+last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
 source_commit: unknown
 source_url: https://github.com/nicowillis/ucode/blob/unknown/lib/digest.c
 source_locator: lib/digest.c
@@ -21,7 +21,7 @@ ai_related_topics:
 
 > **Source:** [https://github.com/nicowillis/ucode/blob/unknown/lib/digest.c](https://github.com/nicowillis/ucode/blob/unknown/lib/digest.c)
 > **Kind:** c_source | **Commit:** unknown | **Method:** normalized
-> **Normalized:** 2026-04-01
+> **Normalized:** 2026-05-15
 
 # ucode module: digest
 
@@ -83,6 +83,36 @@ Returns `null` if a non-string argument is given.
 sha256("This is a test");  // Returns "c7be1ed902fb8dd4d48997c6452f5d7e509fbcdbe2808b16bcf4edce4c07d14e"
 sha256(123);               // Returns null
 ```
+
+### digest.fnv1a64(str) ⇒ `string`
+Calculates the 64-bit FNV-1a non-cryptographic hash of string and returns
+that hash.
+
+Returns `null` if a non-string argument is given.
+
+**Kind**: instance method of [`digest`](#module_digest)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| str | `string` | The string to hash. |
+
+**Example**  
+```ucode
+fnv1a64("This is a test");  // Returns "25f0b040ca8b4ce0"
+fnv1a64(123);               // Returns null
+```
+
+### digest.fnv1a64\_file(path) ⇒ `string`
+Calculates the 64-bit FNV-1a non-cryptographic hash of a given file and
+returns that hash.
+
+Returns `null` if an error occurred.
+
+**Kind**: instance method of [`digest`](#module_digest)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| path | `string` | The path to the file. |
 
 ### digest.md2(str) ⇒ `string`
 Calculates the MD2 hash of string and returns that hash.

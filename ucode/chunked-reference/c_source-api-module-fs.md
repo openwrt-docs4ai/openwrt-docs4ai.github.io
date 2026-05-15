@@ -4,16 +4,25 @@ module: ucode
 origin_type: c_source
 token_count: 11211
 source_file: L1-raw/ucode/c_source-api-module-fs.md
-last_pipeline_run: '2026-04-01T13:49:08.540826+00:00'
+last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
 source_commit: unknown
 source_url: https://github.com/nicowillis/ucode/blob/unknown/lib/fs.c
 source_locator: lib/fs.c
 language: c
+ai_summary: Provides POSIX-style filesystem access for ucode scripts. Implements readfile(), writefile(), popen(), opendir(), stat(), rename(), unlink(), chmod(), realpath(), and readlink() for complete file and directory management. Supports atomic writes via temporary file patterns and direct subprocess output capture through popen() stream objects.
+ai_when_to_use: Use for all ucode filesystem interactions on OpenWrt, particularly for reading UCI config fragments, writing status files atomically, and capturing command output without spawning a shell subprocess.
+ai_related_topics:
+- fs.readfile
+- fs.writefile
+- fs.popen
+- fs.opendir
+- fs.stat
+- fs.realpath
 ---
 
 > **Source:** [https://github.com/nicowillis/ucode/blob/unknown/lib/fs.c](https://github.com/nicowillis/ucode/blob/unknown/lib/fs.c)
 > **Kind:** c_source | **Commit:** unknown | **Method:** normalized
-> **Normalized:** 2026-04-01
+> **Normalized:** 2026-05-15
 
 # ucode module: fs
 
@@ -72,7 +81,7 @@ The handle will be connected to the process stdin or stdout, depending on the
 value of the mode argument.
 
 The mode argument may be either "r" to open the process for reading (connect
-to its stdin) or "w" to open the process for writing (connect to its stdout).
+to its stdout) or "w" to open the process for writing (connect to its stdin).
 
 The mode character "r" or "w" may be optionally followed by "e" to apply the
 FD_CLOEXEC flag onto the open descriptor.
@@ -304,7 +313,7 @@ Creates a new directory.
 
 Returns `true` if the directory was successfully created.
 
-Returns `null` if an error occurred, e.g. due to inexistent path.
+Returns `null` if an error occurred, e.g. due to non-existent path.
 
 **Kind**: instance method of [`fs`](#module_fs)  
 
@@ -323,7 +332,7 @@ Removes the specified directory.
 
 Returns `true` if the directory was successfully removed.
 
-Returns `null` if an error occurred, e.g. due to inexistent path.
+Returns `null` if an error occurred, e.g. due to non-existent path.
 
 **Kind**: instance method of [`fs`](#module_fs)  
 
@@ -342,7 +351,7 @@ Creates a new symbolic link.
 
 Returns `true` if the symlink was successfully created.
 
-Returns `null` if an error occurred, e.g. due to inexistent path.
+Returns `null` if an error occurred, e.g. due to non-existent path.
 
 **Kind**: instance method of [`fs`](#module_fs)  
 
@@ -362,7 +371,7 @@ Removes the specified file or symbolic link.
 
 Returns `true` if the unlink operation was successful.
 
-Returns `null` if an error occurred, e.g. due to inexistent path.
+Returns `null` if an error occurred, e.g. due to non-existent path.
 
 **Kind**: instance method of [`fs`](#module_fs)  
 

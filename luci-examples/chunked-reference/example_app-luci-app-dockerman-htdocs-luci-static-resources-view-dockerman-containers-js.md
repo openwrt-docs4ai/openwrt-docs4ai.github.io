@@ -2,9 +2,9 @@
 title: containers.js
 module: luci-examples
 origin_type: example_app
-token_count: 3219
+token_count: 3599
 source_file: L1-raw/luci-examples/example_app-luci-app-dockerman-htdocs-luci-static-resources-view-dockerman-containers-js.md
-last_pipeline_run: '2026-04-01T13:49:08.540826+00:00'
+last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
 source_commit: unknown
 source_url: https://github.com/openwrt/luci/blob/unknown/applications/luci-app-dockerman/htdocs/luci-static/resources/view/dockerman/containers.js
 source_locator: applications/luci-app-dockerman/htdocs/luci-static/resources/view/dockerman/containers.js
@@ -22,7 +22,7 @@ ai_related_topics:
 
 > **Source:** [https://github.com/openwrt/luci/blob/unknown/applications/luci-app-dockerman/htdocs/luci-static/resources/view/dockerman/containers.js](https://github.com/openwrt/luci/blob/unknown/applications/luci-app-dockerman/htdocs/luci-static/resources/view/dockerman/containers.js)
 > **Kind:** example_app | **Commit:** unknown | **Method:** normalized
-> **Normalized:** 2026-04-01
+> **Normalized:** 2026-05-15
 
 # containers.js
 ```javascript
@@ -205,6 +205,7 @@ return dm2.dv.extend({
 	buildContainerActions(cont, idx) {
 		const view = this;
 		const isRunning = cont?.State === 'running';
+		const isRestarting = cont?.State === 'restarting';
 		const isPaused = cont?.State === 'paused';
 		const btns = [
 			E('button', {
@@ -280,7 +281,7 @@ return dm2.dv.extend({
 					dm2.Types['container'].sub['stop'].i18n,
 					{showOutput: true, showSuccess: false}
 				),
-				'disabled' : !(isRunning || isPaused) ? true : null
+				'disabled' : !(isRunning || isPaused || isRestarting) ? true : null
 			}, [dm2.Types['container'].sub['stop'].e]),
 
 			E('button', {
@@ -292,7 +293,7 @@ return dm2.dv.extend({
 					dm2.Types['container'].sub['kill'].i18n,
 					{showOutput: true, showSuccess: false}
 				),
-				'disabled' : !(isRunning || isPaused) ? true : null
+				'disabled' : !(isRunning || isPaused || isRestarting) ? true : null
 			}, [dm2.Types['container'].sub['kill'].e]),
 
 			E('button', {
@@ -336,6 +337,56 @@ return dm2.dv.extend({
 		}, E('div', btns));
 	},
 
+	buildPortLinks(ports) {
+		// cont.Ports[] from GET /containers/json — flat array.
+		// Published ports have {IP, PrivatePort, PublicPort, Type}.
+		// Exposed-only ports omit IP and PublicPort: {PrivatePort, Type}.
+		if (!Array.isArray(ports) || ports.length === 0) return '';
+
+		const LOCAL_IPS = new Set(['0.0.0.0', '::']);
+
+		// Sort: published (has PublicPort) before exposed-only, then by PrivatePort
+		const sorted = [...ports].sort((a, b) => {
+			const aHasPub = a.PublicPort ? 1 : 0;
+			const bHasPub = b.PublicPort ? 1 : 0;
+			if (aHasPub !== bHasPub) return bHasPub - aHasPub;
+			return (a.PrivatePort || 0) - (b.PrivatePort || 0);
+		});
+
+		const lines = sorted.map(p => {
+			const ip   = p.IP || '';
+			const pub  = p.PublicPort || '';
+			const priv = p.PrivatePort || '';
+			const type = p.Type || '';
+
+			const isIPv6    = ip.includes(':');
+			const isLocal   = LOCAL_IPS.has(ip);
+			const displayIp = isIPv6 ? `[${ip}]` : ip;
+
+			let label;
+			if (pub && ip)  label = `${displayIp}:${pub}->${priv}/${type}`;
+			else if (pub)   label = `${pub}->${priv}/${type}`;
+			else            label = `${priv}/${type}`;
+
+			// Clickable link for published TCP ports only
+			if (type === 'tcp' && pub) {
+				const host = isLocal ? window.location.hostname : displayIp;
+				return E('div', {}, [
+					E('a', {
+						href: `http://${host}:${pub}`,
+						target: '_blank',
+						rel: 'noopener noreferrer',
+						title: _('Open in browser'),
+					}, [label]),
+				]);
+			}
+
+			return E('div', {}, [label]);
+		});
+
+		return E('div', {}, lines);
+	},
+
 	handleSave: null,
 	handleSaveApply: null,
 	handleReset: null,
@@ -370,16 +421,7 @@ return dm2.dv.extend({
 				_shortId: (cont?.Id || '').substring(0, 12),
 				Networks: this.parseNetworkLinksForContainer(network_list, cont?.NetworkSettings?.Networks || {}, true),
 				Created: this.buildTimeString(cont?.Created) || '',
-				Ports: (Array.isArray(cont.Ports) && cont.Ports.length > 0)
-						? cont.Ports.map(p => {
-							// const ip = p.IP || '';
-							const pub = p.PublicPort || '';
-							const priv = p.PrivatePort || '';
-							const type = p.Type || '';
-							return `${pub ? pub + ':' : ''}${priv}/${type}`;
-							// return `${ip ? ip + ':' : ''}${pub} -> ${priv} (${type})`;
-						}).join('<br/>')
-						: '',
+				Ports: this.buildPortLinks(cont.Ports),
 			});
 		}
 

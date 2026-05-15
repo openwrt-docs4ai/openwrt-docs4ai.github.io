@@ -2,9 +2,9 @@
 title: 'OpenWrt Buildroot: kernel packages'
 module: openwrt-core
 origin_type: makefile_meta
-token_count: 2744
+token_count: 2865
 source_file: L1-raw/openwrt-core/makefile_meta-category-kernel.md
-last_pipeline_run: '2026-04-01T13:49:08.540826+00:00'
+last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
 source_commit: unknown
 source_url: https://github.com/openwrt/openwrt/blob/unknown/package/kernel
 source_locator: package/kernel
@@ -27,7 +27,7 @@ ai_related_topics:
 
 > **Source:** [https://github.com/openwrt/openwrt/blob/unknown/package/kernel](https://github.com/openwrt/openwrt/blob/unknown/package/kernel)
 > **Kind:** makefile_meta | **Commit:** unknown | **Method:** normalized
-> **Normalized:** 2026-04-01
+> **Normalized:** 2026-05-15
 
 # OpenWrt Buildroot: kernel packages
 
@@ -169,7 +169,7 @@ CFE RAM binaries for bcm63xx.
 
 | Field | Value |
 |---|---|
-| Version | 6.18.7 |
+| Version | 6.18.26 |
 | License | GPL-2.0-only |
 | Maintainer | Felix Fietkau <nbd@nbd.name> |
 | Source URL | https://github.com/openwrt/backports/releases/download/backports-v$(PKG_VERSION) |
@@ -223,6 +223,18 @@ CFE RAM binaries for bcm63xx.
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/kernel/nat46
+---
+
+## ntfs
+
+| Field | Value |
+|---|---|
+| License | GPL-2.0-or-later |
+| Maintainer | Qingfang Deng <dqfext@gmail.com> include $(INCLUDE_DIR)/[package.mk](../../openwrt-core/chunked-reference/makefile_meta-include-mk.md) define KernelPackage/fs-ntfs SECTION:=kernel CATEGORY:=Kernel modules SUBMENU:=Filesystems TITLE:=NTFS file system support DEPENDS:=+ |
+| Source URL | https://github.com/namjaejeon/linux-ntfs |
+
+
+> Source: https://github.com/openwrt/openwrt/tree/master/package/kernel/ntfs
 ---
 
 ## qca-nss-dp
@@ -301,7 +313,7 @@ CFE RAM binaries for bcm63xx.
 
 | Field | Value |
 |---|---|
-| Version | 8.055.00 |
+| Version | 8.056.02 |
 | License | GPLv2 |
 | Maintainer | Alvaro Fernandez Rojas <noltari@gmail.com> include $(INCLUDE_DIR)/[kernel.mk](../../openwrt-core/chunked-reference/makefile_meta-include-mk.md) include $(INCLUDE_DIR)/[package.mk](../../openwrt-core/chunked-reference/makefile_meta-include-mk.md) define KernelPackage/r8168 SUBMENU:=Network Devices TITLE:=Realtek RTL8168 PCI Gigabit Eth |
 | Source URL | https://github.com/openwrt/rtl8168/releases/download/$(PKG_VERSION) |

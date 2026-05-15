@@ -2,9 +2,9 @@
 title: 'ucode module: debug'
 module: ucode
 origin_type: c_source
-token_count: 3903
+token_count: 3902
 source_file: L1-raw/ucode/c_source-api-module-debug.md
-last_pipeline_run: '2026-04-01T13:49:08.540826+00:00'
+last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
 source_commit: unknown
 source_url: https://github.com/nicowillis/ucode/blob/unknown/lib/debug.c
 source_locator: lib/debug.c
@@ -19,7 +19,7 @@ ai_related_topics:
 
 > **Source:** [https://github.com/nicowillis/ucode/blob/unknown/lib/debug.c](https://github.com/nicowillis/ucode/blob/unknown/lib/debug.c)
 > **Kind:** c_source | **Commit:** unknown | **Method:** normalized
-> **Normalized:** 2026-04-01
+> **Normalized:** 2026-05-15
 
 # ucode module: debug
 
@@ -342,7 +342,7 @@ index is invalid.
 | linefrom | `number` | The source line number of the local variable declaration. |
 | bytefrom | `number` | The source line offset of the local variable declaration. |
 | lineto | `number` | The source line number where the local variable goes out of scope. |
-| byteto | `number` | The source line offset where the local vatiable goes out of scope. |
+| byteto | `number` | The source line offset where the local variable goes out of scope. |
 
 ### debug.UpvalInfo : `Object`
 **Kind**: static typedef of [`debug`](#module_debug)  

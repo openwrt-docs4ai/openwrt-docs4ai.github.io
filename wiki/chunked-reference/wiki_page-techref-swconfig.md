@@ -2,9 +2,9 @@
 title: swconfig
 module: wiki
 origin_type: wiki_page
-token_count: 3222
+token_count: 3240
 source_file: L1-raw/wiki/wiki_page-techref-swconfig.md
-last_pipeline_run: '2026-04-01T13:49:08.540826+00:00'
+last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
 source_url: https://openwrt.org/docs/techref/swconfig
 language: text
 ai_summary: The `swconfig` program is used for configuring Ethernet network switches in OpenWrt. It supports various hardware switches through specific drivers and allows users to view and manage switch configurations. Although `swconfig` is considered legacy, it remains functional for supported devices, enabling commands like `swconfig list` and `swconfig dev switch0 show` to display current settings. Users should transition to the DSA framework for new switch drivers to utilize standard tools like `ip` for configuration.
@@ -25,13 +25,13 @@ ai_related_topics:
 
 > **Source:** [https://openwrt.org/docs/techref/swconfig](https://openwrt.org/docs/techref/swconfig)
 > **Kind:** wiki_page | **Method:** scraped
-> **Normalized:** 2026-04-01
+> **Normalized:** 2026-05-15
 
 # swconfig
 
 The program `swconfig` allows you to configure *configurable* [Ethernet network switches](/docs/techref/hardware/switch).
 
-It is considered legacy and new switch drivers should use the DSA (distributed switch architecture) kernel framework which makes it possible to use standard userspace tools such as `ip` to configure the switches.
+It is considered legacy and new switch drivers should use the DSA [(Distributed Switch Architecture)](https://www.kernel.org/doc/html/latest/networking/dsa/dsa.html) kernel framework which makes it possible to use standard userspace tools such as `ip` to configure the switches.
 
 Make sure you can [safemode](/docs/guide-user/troubleshooting/failsafe_and_factory_reset) or TTL before changing network/switch settings
 

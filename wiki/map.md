@@ -1,7 +1,7 @@
 # wiki Navigation Map
 
 > **Contains:** Headers and function signatures for wiki.
-> **Generated:** 2026-04-01T13:49:25.808980+00:00
+> **Generated:** 2026-05-15T22:05:35.320175+00:00
 
 ---
 
@@ -425,6 +425,8 @@
 ### Using the label MAC address
 ## Common MAC address locations
 
+> **Summary:** The umdns package provides local DNS name resolution for OpenWrt routers, allowing services to be accessed via *hostname.local* instead of an IP address. It utilizes mDNS (multicast DNS), enabling automatic discovery of devices and services on the local network without requiring complex configuration. Installation is straightforward, available through the LuCI web interface or via `opkg install umdns`. Configuration options include setting the hostname, local domain, and specifying network interfaces for mDNS advertisement.
+> **Use Case:** Use umdns when you want to simplify access to your OpenWrt router and its services on a local network without needing to remember IP addresses.
 # umdns for Local Device Discovery
 ## Installation
 ### Configuration
@@ -503,6 +505,8 @@
 ## Package Versions
 ## Repeatable Builds
 
+> **Summary:** OpenWrt packages are essential components of the OpenWrt system, providing software in the form of source and binary packages. A source package includes a Makefile, optional patches, and other static files, while a binary package is a tar archive containing executable artifacts and control files. Binary packages are typically generated from source packages using the OpenWrt buildroot or SDK, ensuring proper compilation and packaging. Manual assembly of binary packages is discouraged due to reproducibility and verification issues.
+> **Use Case:** Use OpenWrt packages when developing or customizing firmware for embedded devices, ensuring that software components are properly managed and integrated. This is particularly relevant when creating new features or modifying existing functionalities in OpenWrt.
 # OpenWrt packages
 ## Source packages
 ### Structure
@@ -622,6 +626,8 @@
 ###########################################
 ## How To Submit Patches to OpenWrt
 
+> **Summary:** This document provides a comprehensive guide on creating a sample procd init script for OpenWrt, illustrating how to set up a simple shell script as a service. It includes detailed instructions on configuring the script to accept parameters for a message and timeout, as well as how to create the corresponding init script in `/etc/init.d/`. The guide emphasizes the use of procd features such as service lifecycle management and configuration handling through UCI. Additionally, it explains how to enable the service and manage its startup and shutdown order.
+> **Use Case:** Use this guide when you need to create a lightweight service on OpenWrt that can be configured and managed through the procd system. It is particularly useful for simple tasks that require periodic execution.
 # Create a sample procd init script
 ## Setting up
 #!/bin/sh
@@ -670,6 +676,8 @@
 > **Use Case:** This process should be utilized whenever a security incident is reported to ensure a swift and organized response. It is particularly relevant for developers and security teams working on OpenWrt.
 # High-level security incident response handling process
 
+> **Summary:** The Security module of OpenWrt outlines the processes, tools, and mechanisms utilized to ensure the security of the OpenWrt distribution and its official package feeds. It includes guidelines for vulnerability reporting, emphasizing confidentiality and the appropriate channels for communication, such as contacting <contact@openwrt.org> or the public mailing list <openwrt-adm@lists.openwrt.org>. Additionally, the module provides information on security advisories specifically for components maintained by OpenWrt, while noting that third-party components are not covered. The support status of various OpenWrt releases is also detailed, indicating their current status and projected end-of-life dates.
+> **Use Case:** Use this module when you need to understand the security protocols and reporting mechanisms for OpenWrt. It is particularly relevant for developers and users who want to report vulnerabilities or stay informed about security advisories.
 # Security
 ## Vulnerability reporting
 ## Security advisories
@@ -828,6 +836,8 @@
 # BusyBox
 ## Identify OpenWrt version through udhcp
 
+> **Summary:** The DFS (Dynamic Frequency Selection) module in OpenWrt manages the use of 5GHz WLAN channels that may overlap with weather radar frequencies, ensuring compliance with regulations such as those outlined in 802.11h. It is utilized during Automatic Channel Selection (ACS) in hostapd to identify and select available channels. Different hardware drivers provide varying levels of DFS support, including ath9k, ath10k, and mt76, with some limitations based on regulatory schemes like DFS-FCC and DFS-ETSI. Users should be aware of potential interoperability issues due to changing hardware and regulatory compliance, as well as the availability of proprietary drivers that may offer additional DFS functionality.
+> **Use Case:** Use the DFS module when configuring 5GHz WLAN channels in OpenWrt to ensure compliance with local regulations and optimize channel selection. It is particularly relevant for environments where radar interference is a concern.
 # DFS
 ## DFS support
 
@@ -1071,6 +1081,8 @@
 ## libubox/safe-list.h
 ## libubox/kvlist.h
 
+> **Summary:** The lldpd module implements the Link Layer Discovery Protocol (LLDP), an industry-standard protocol that provides a mechanism for network devices to discover each other and share information. It is designed to replace proprietary protocols like Extreme's EDP and Cisco's CDP. Configuration is done through the `/etc/config/lldpd` file, allowing users to set device classes and descriptions. The daemon must be running to utilize the `lldpcli` command for viewing neighbors and statistics.
+> **Use Case:** Use lldpd when you need to discover adjacent network devices in a multi-vendor environment. It is particularly useful for network management and monitoring in OpenWrt setups.
 # lldpd
 ## Abstract
 # Installation & Configuration
@@ -1287,6 +1299,8 @@
 
 ## References
 
+> **Summary:** The Sysupgrade module in OpenWrt is a shell script located at `/sbin/sysupgrade` designed to facilitate system updates. It provides various command-line options for upgrading the system, creating backups, and restoring configurations. Key options include `-f` for restoring configurations from a tarball, `-c` for preserving changed files in `/etc/`, and `-n` to skip saving configurations during a reflash. Users should be cautious with certain options, as preserving files can lead to incompatibilities in new versions.
+> **Use Case:** Use Sysupgrade when you need to update your OpenWrt device or restore configurations from a backup. It is particularly useful for maintaining system settings across upgrades.
 # Sysupgrade – Technical Reference
 # Sysupgrade – Technical Reference
 ## Usage

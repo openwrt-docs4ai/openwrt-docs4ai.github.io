@@ -1,18 +1,18 @@
 ---
 module: luci-examples
-total_token_count: 99980
-section_count: 26
+total_token_count: 99436
+section_count: 24
 is_monolithic: false
 is_sharded_part: true
 part_number: 1
 part_count: 2
-generated: '2026-04-01T13:49:25.808980+00:00'
+generated: '2026-05-15T22:05:35.320175+00:00'
 ---
 
 # luci-examples Bundled Reference (Part 1 of 2)
 
-> **Contains:** 26 documents
-> **Tokens:** ~99980 (cl100k_base)
+> **Contains:** 24 documents
+> **Tokens:** ~99436 (cl100k_base)
 > **Index:** [./bundled-reference.md](./bundled-reference.md)
 
 ---
@@ -4287,8 +4287,12 @@ return dm2.dv.extend({
 		if (!portBindings || typeof portBindings !== 'object') return [];
 		const ports = [];
 		for (const [containerPort, bindings] of Object.entries(portBindings)) {
-			if (Array.isArray(bindings) && bindings.length > 0 && bindings[0]?.HostPort) {
-				ports.push(`${bindings[0].HostPort}:${containerPort}`);
+			if (Array.isArray(bindings)) {
+				for (const b of bindings) {
+					if (!b?.HostPort) continue;
+					const ip = (b.HostIp && b.HostIp !== '0.0.0.0' && b.HostIp !== '::') ? b.HostIp + ':' : '';
+					ports.push(`${ip}${b.HostPort}:${containerPort}`);
+				}
 			}
 		}
 		return ports;
@@ -4343,8 +4347,9 @@ return dm2.dv.extend({
 				Name: name,
 				NetworkID: netid,
 				DNSNames: net?.DNSNames || '',
-				IPv4Address: net?.IPAMConfig?.IPv4Address || '',
+				IPv4Address: net?.IPAMConfig?.IPv4Address || net?.IPAddress || '',
 				IPv6Address: net?.IPAMConfig?.IPv6Address || '',
+				Aliases: net?.Aliases || '',
 			});
 		}
 
@@ -4352,6 +4357,7 @@ return dm2.dv.extend({
 	},
 
 	render([this_container, images, networks, cpus_mem, ps_top, stats_data, changes_data]) {
+		this.networks = networks;
 		const view = this;
 		const containerName = this_container.Name?.substring(1) || this_container.Id || '';
 		const containerIdShort = (this_container.Id || '').substring(0, 12);
@@ -4396,7 +4402,7 @@ return dm2.dv.extend({
 		}
 
 		// Stop button
-		if (containerStatus === 'running' || containerStatus === 'paused') {
+		if (containerStatus === 'running' || containerStatus === 'paused' || containerStatus === 'restarting') {
 			const stopBtn = E('button', {
 				'class': 'cbi-button cbi-button-reset',
 				'click': (ev) => this.executeAction(ev, 'stop', this_container.Id)
@@ -4405,7 +4411,7 @@ return dm2.dv.extend({
 		}
 
 		// Kill button
-		if (containerStatus === 'running') {
+		if (containerStatus === 'running' || containerStatus === 'restarting') {
 			const killBtn = E('button', {
 				'class': 'cbi-button',
 				'style': 'background-color: #dc3545;',
@@ -4617,6 +4623,8 @@ return dm2.dv.extend({
 		o = ss.option(form.DummyValue, 'IPv6Gateway', _('IPv6 Gateway'));
 
 		o = ss.option(form.DummyValue, 'DNSNames', _('DNS Names'));
+
+		o = ss.option(form.DummyValue, 'Aliases', _('Aliases'));
 
 		ss.handleAdd = function(ev) {
 			ev.preventDefault();
@@ -5886,7 +5894,7 @@ return dm2.dv.extend({
 				dm2.network_disconnect,
 				{
 					id: networkID,
-					body: { Container: view.containerId, Force: false }
+					body: { Container: this_container.Id, Force: false }
 				},
 				_('Disconnect network'),
 				{
@@ -5920,7 +5928,7 @@ return dm2.dv.extend({
 
 			const ip4Input = E('input', {
 				'type': 'text',
-				'id': 'network-ip',
+				'id': 'network-ip4',
 				'class': 'cbi-input-text',
 				'placeholder': 'e.g., 172.18.0.5',
 				'style': 'width:100%; margin-top:5px;'
@@ -5928,18 +5936,29 @@ return dm2.dv.extend({
 
 			const ip6Input = E('input', {
 				'type': 'text',
-				'id': 'network-ip',
+				'id': 'network-ip6',
 				'class': 'cbi-input-text',
 				'placeholder': 'e.g., 2001:db8:1::1',
+				'style': 'width:100%; margin-top:5px;'
+			});
+
+			const aliasesInput = E('input', {
+				'type': 'text',
+				'id': 'network-aliases',
+				'class': 'cbi-input-text',
+				'placeholder': 'e.g., database,db (comma-separated)',
 				'style': 'width:100%; margin-top:5px;'
 			});
 
 			const modalBody = E('div', { 'class': 'cbi-section' }, [
 				E('p', {}, _('Select network to connect:')),
 				networkSelect,
-				E('label', { 'style': 'display:block; margin-top:10px;' }, _('IP Address (optional):')),
+				E('label', { 'style': 'display:block; margin-top:10px;' }, _('IPv4 Address (optional):')),
 				ip4Input,
+				E('label', { 'style': 'display:block; margin-top:10px;' }, _('IPv6 Address (optional):')),
 				ip6Input,
+				E('label', { 'style': 'display:block; margin-top:10px;' }, _('Aliases (optional):')),
+				aliasesInput,
 			]);
 
 			ui.showModal(_('Connect Network'), [
@@ -5955,7 +5974,9 @@ return dm2.dv.extend({
 						'click': () => {
 							const selectedNetwork = networkSelect.value;
 							const ip4Address = ip4Input.value || '';
-							// const ip6Address = ip6Input.value || '';
+							const ip6Address = ip6Input.value || '';
+							const aliasesRaw = aliasesInput.value || '';
+							const aliases = aliasesRaw.split(',').map(a => a.trim()).filter(Boolean);
 
 							if (!selectedNetwork) {
 								view.showNotification(_('Error'), [_('No network selected')], 5000, 'error');
@@ -5964,8 +5985,14 @@ return dm2.dv.extend({
 
 							ui.hideModal();
 
-							const body = { Container: view.containerId };
-							body.EndpointConfig = { IPAMConfig: { IPv4Address: ip4Address } }; //, IPv6Address: ip6Address || null
+							const body = { Container: this_container.Id };
+							body.EndpointConfig = { 
+								IPAMConfig: { 
+									IPv4Address: ip4Address || null, 
+									IPv6Address: ip6Address || null 
+								},
+								Aliases: aliases.length > 0 ? aliases : null
+							};
 
 							view.executeDockerAction(
 								dm2.network_connect,
@@ -6075,7 +6102,8 @@ return dm2.dv.extend({
 			const hostConfig = c.HostConfig || {};
 			const resolvedImage = resolveImageId(c.Image) || resolveImageId(c.Config?.Image) || c.Image || c.Config?.Image || '';
 			const builtInNetworks = new Set(['none', 'bridge', 'host']);
-			const [netnames, nets] = Object.entries(c.NetworkSettings?.Networks || {});
+			// Object.entries returns [[name, obj], ...] — pick the first network
+			const [[firstName, firstNet] = []] = Object.entries(c.NetworkSettings?.Networks || {});
 
 			containerData.container = {
 				name: c.Name?.substring(1) || '',
@@ -6084,20 +6112,22 @@ return dm2.dv.extend({
 				image: resolvedImage,
 				privileged: hostConfig.Privileged ? 1 : 0,
 				restart_policy: hostConfig.RestartPolicy?.Name || 'unless-stopped',
-				network: (() => {
-					return (netnames && (netnames.length > 0)) ? netnames[0] : '';
+				network: firstName || '',
+				network_aliases: (() => {
+					if (!firstName || builtInNetworks.has(firstName)) return '';
+					return (firstNet?.Aliases || []).join(', ');
 				})(),
 				ipv4: (() => {
-					if (builtInNetworks.has(netnames[0])) return '';
-					return (nets && (nets.length > 0)) ? nets[0]?.IPAddress || '' : '';
+					if (!firstName || builtInNetworks.has(firstName)) return '';
+					return firstNet?.IPAddress || '';
 				})(),
 				ipv6: (() => {
-					if (builtInNetworks.has(netnames[0])) return '';
-					return (nets && (nets.length > 0)) ? nets[0]?.GlobalIPv6Address || '' : '';
+					if (!firstName || builtInNetworks.has(firstName)) return '';
+					return firstNet?.GlobalIPv6Address || '';
 				})(),
 				ipv6_lla: (() => {
-					if (builtInNetworks.has(netnames[0])) return '';
-					return (nets && (nets.length > 0)) ? nets[0]?.LinkLocalIPv6Address || '' : '';
+					if (!firstName || builtInNetworks.has(firstName)) return '';
+					return firstNet?.LinkLocalIPv6Address || '';
 				})(),
 				link: hostConfig.Links || [],
 				dns: hostConfig.Dns || [],
@@ -6137,14 +6167,22 @@ return dm2.dv.extend({
 				publish: (() => {
 					const ports = [];
 					for (const [containerPort, bindings] of Object.entries(hostConfig.PortBindings || {})) {
-						if (Array.isArray(bindings) && bindings.length > 0 && bindings[0]?.HostPort) {
-							const hostPort = bindings[0].HostPort;
-							ports.push(hostPort + ':' + containerPort);
+						if (Array.isArray(bindings) && bindings.length > 0) {
+							for (const b of bindings) {
+								if (!b?.HostPort) continue;
+								const ip = (b.HostIp && b.HostIp !== '0.0.0.0' && b.HostIp !== '::') ? b.HostIp : '';
+								ports.push((ip ? ip + ':' : '') + b.HostPort + ':' + containerPort);
+							}
 						}
 					}
 					return ports;
 				})(),
-				command: c.Config?.Cmd ? c.Config?.Cmd.join(' ') : '',
+				command: c.Config?.Cmd ? c.Config?.Cmd.map(arg => {
+					if (arg.includes(' ') || arg.includes('"') || arg.includes("'")) {
+						return '"' + arg.replace(/"/g, '\\"') + '"';
+					}
+					return arg;
+				}).join(' ') : '',
 				hostname: c.Config?.Hostname || '',
 				publish_all: hostConfig.PublishAllPorts ? 1 : 0,
 				device: (hostConfig.Devices || []).map(d => d.PathOnHost + ':' + d.PathInContainer + (d.CgroupPermissions ? ':' + d.CgroupPermissions : '')),
@@ -6184,6 +6222,7 @@ return dm2.dv.extend({
 					}
 					return list;
 				})(),
+				log_driver: hostConfig.LogConfig?.Type || '',
 			};
 		}
 
@@ -6251,6 +6290,7 @@ return dm2.dv.extend({
 			let dnet = this.section.getOption('network').getUIElement(section_id).getValue();
 			const disallowed = builtInNetworks.has(dnet);
 			if (disallowed) return _('Only for user-defined networks');
+			return true;
 		};
 
 		o = s.option(form.Value, 'ipv4', _('IPv4 Address'));
@@ -6266,6 +6306,11 @@ return dm2.dv.extend({
 		o = s.option(form.Value, 'ipv6_lla', _('IPv6 Link-Local Address'));
 		o.rmempty = true;
 		o.datatype = 'ip6ll';
+		o.validate = not_with_a_docker_net;
+
+		o = s.option(form.Value, 'network_aliases', _('Network Aliases'));
+		o.rmempty = true;
+		o.placeholder = 'database,db (CSV)';
 		o.validate = not_with_a_docker_net;
 
 		o = s.option(form.DynamicList, 'link', _('Links with other containers'));
@@ -6732,6 +6777,14 @@ return dm2.dv.extend({
 		o.placeholder='max-size=1m';
 		o.depends('advanced', 1);
 
+		o = s.option(form.ListValue, 'log_driver', _('Log driver'));
+		o.rmempty = true;
+		o.value('', _('Default (daemon)'));
+		o.value('local', _('local'));
+		o.value('json-file', _('json-file'));
+		o.value('syslog', _('syslog'));
+		o.value('none', _('none'));
+		o.depends('advanced', 1);
 
 		this.map = m;
 
@@ -6756,8 +6809,10 @@ return dm2.dv.extend({
 			.then(() => {
 				const get = (opt) => map.data.get('json', 'container', opt);
 				const name = get('name');
+				const log_driver = get('log_driver');
 				// const pull = toBool(get('pull'));
 				const network = get('network');
+				const network_aliases = get('network_aliases');
 				const publish = get('publish');
 				const command = get('command');
 				// const publish_all = toBool(get('publish_all'));
@@ -6773,7 +6828,7 @@ return dm2.dv.extend({
 					Tty: toBool(get('tty')),
 					OpenStdin: toBool(get('interactive')),
 					Env: get('env'),
-					Cmd: command ? command.split(' ') : null,
+					Cmd: command ? (command.match(/(?:[^\s"]+|"[^"]*")+/g) || []).map(arg => arg.replace(/^"|"$/g, '')) : null,
 					Image: get('image'),
 					HostConfig: {
 						CpuShares: toInt(get('cpu_shares')),
@@ -6794,17 +6849,44 @@ return dm2.dv.extend({
 								CgroupPermissions: parts[2] || 'rwm'
 							};
 						}) : undefined,
-						LogConfig: log_opt ? {
+						LogConfig: log_driver ? {
+							Type: log_driver,
+							Config: listToKv(log_opt)
+						} : (log_opt ? {
 							Type: 'json-file',
 							Config: listToKv(log_opt)
-						} : undefined,
+						} : undefined),
 						NetworkMode: network,
 						PortBindings: publish ? Object.fromEntries(
 							(Array.isArray(publish) ? publish : [publish])
 							.filter(p => p && typeof p === 'string' && p.trim().length > 0)
 							.map(p => {
-								const m = p.match(/^(\d+):(\d+)\/(tcp|udp)$/);
-								if (m) return [`${m[2]}/${m[3]}`, [{ HostPort: m[1] }]];
+								// hostIp:hostPort:cPort/proto (e.g. 192.168.1.100:8080:80/tcp)
+								const m = p.match(/^([^:]+):(\d+):(\d+)\/(tcp|udp)$/);
+								if (m) {
+									const hostIp   = m[1];
+									const hostPort = m[2];
+									const cPort    = m[3];
+									const proto    = m[4];
+									return [`${cPort}/${proto}`, [{ HostIp: hostIp, HostPort: hostPort }]];
+								}
+								// [ipv6]:hostPort:cPort/proto (e.g. [::1]:8080:80/tcp)
+								const m6 = p.match(/^\[([^\]]+)\]:(\d+):(\d+)\/(tcp|udp)$/);
+								if (m6) {
+									const hostIp   = m6[1];
+									const hostPort = m6[2];
+									const cPort    = m6[3];
+									const proto    = m6[4];
+									return [`${cPort}/${proto}`, [{ HostIp: hostIp, HostPort: hostPort }]];
+								}
+								// hostPort:cPort/proto (e.g. 8080:80/tcp)
+								const m2 = p.match(/^(\d+):(\d+)\/(tcp|udp)$/);
+								if (m2) {
+									const hostPort = m2[1];
+									const cPort    = m2[2];
+									const proto    = m2[3];
+									return [`${cPort}/${proto}`, [{ HostPort: hostPort }]];
+								}
 								return null;
 							}).filter(Boolean)
 						) : undefined,
@@ -6825,7 +6907,10 @@ return dm2.dv.extend({
 						Sysctls: sysctl ? listToKv(sysctl) : undefined,
 					},
 					NetworkingConfig: {
-						EndpointsConfig: { [network]: { IPAMConfig: { IPv4Address: get('ipv4') || null, IPv6Address: get('ipv6') || null } } },
+						EndpointsConfig: { [network]: { 
+							IPAMConfig: { IPv4Address: get('ipv4') || null, IPv6Address: get('ipv6') || null },
+							Aliases: network_aliases ? network_aliases.split(',').map(a => a.trim()).filter(Boolean) : null
+						} },
 					}
 				};
 
@@ -7136,6 +7221,7 @@ return dm2.dv.extend({
 	buildContainerActions(cont, idx) {
 		const view = this;
 		const isRunning = cont?.State === 'running';
+		const isRestarting = cont?.State === 'restarting';
 		const isPaused = cont?.State === 'paused';
 		const btns = [
 			E('button', {
@@ -7211,7 +7297,7 @@ return dm2.dv.extend({
 					dm2.Types['container'].sub['stop'].i18n,
 					{showOutput: true, showSuccess: false}
 				),
-				'disabled' : !(isRunning || isPaused) ? true : null
+				'disabled' : !(isRunning || isPaused || isRestarting) ? true : null
 			}, [dm2.Types['container'].sub['stop'].e]),
 
 			E('button', {
@@ -7223,7 +7309,7 @@ return dm2.dv.extend({
 					dm2.Types['container'].sub['kill'].i18n,
 					{showOutput: true, showSuccess: false}
 				),
-				'disabled' : !(isRunning || isPaused) ? true : null
+				'disabled' : !(isRunning || isPaused || isRestarting) ? true : null
 			}, [dm2.Types['container'].sub['kill'].e]),
 
 			E('button', {
@@ -7267,6 +7353,56 @@ return dm2.dv.extend({
 		}, E('div', btns));
 	},
 
+	buildPortLinks(ports) {
+		// cont.Ports[] from GET /containers/json — flat array.
+		// Published ports have {IP, PrivatePort, PublicPort, Type}.
+		// Exposed-only ports omit IP and PublicPort: {PrivatePort, Type}.
+		if (!Array.isArray(ports) || ports.length === 0) return '';
+
+		const LOCAL_IPS = new Set(['0.0.0.0', '::']);
+
+		// Sort: published (has PublicPort) before exposed-only, then by PrivatePort
+		const sorted = [...ports].sort((a, b) => {
+			const aHasPub = a.PublicPort ? 1 : 0;
+			const bHasPub = b.PublicPort ? 1 : 0;
+			if (aHasPub !== bHasPub) return bHasPub - aHasPub;
+			return (a.PrivatePort || 0) - (b.PrivatePort || 0);
+		});
+
+		const lines = sorted.map(p => {
+			const ip   = p.IP || '';
+			const pub  = p.PublicPort || '';
+			const priv = p.PrivatePort || '';
+			const type = p.Type || '';
+
+			const isIPv6    = ip.includes(':');
+			const isLocal   = LOCAL_IPS.has(ip);
+			const displayIp = isIPv6 ? `[${ip}]` : ip;
+
+			let label;
+			if (pub && ip)  label = `${displayIp}:${pub}->${priv}/${type}`;
+			else if (pub)   label = `${pub}->${priv}/${type}`;
+			else            label = `${priv}/${type}`;
+
+			// Clickable link for published TCP ports only
+			if (type === 'tcp' && pub) {
+				const host = isLocal ? window.location.hostname : displayIp;
+				return E('div', {}, [
+					E('a', {
+						href: `http://${host}:${pub}`,
+						target: '_blank',
+						rel: 'noopener noreferrer',
+						title: _('Open in browser'),
+					}, [label]),
+				]);
+			}
+
+			return E('div', {}, [label]);
+		});
+
+		return E('div', {}, lines);
+	},
+
 	handleSave: null,
 	handleSaveApply: null,
 	handleReset: null,
@@ -7301,16 +7437,7 @@ return dm2.dv.extend({
 				_shortId: (cont?.Id || '').substring(0, 12),
 				Networks: this.parseNetworkLinksForContainer(network_list, cont?.NetworkSettings?.Networks || {}, true),
 				Created: this.buildTimeString(cont?.Created) || '',
-				Ports: (Array.isArray(cont.Ports) && cont.Ports.length > 0)
-						? cont.Ports.map(p => {
-							// const ip = p.IP || '';
-							const pub = p.PublicPort || '';
-							const priv = p.PrivatePort || '';
-							const type = p.Type || '';
-							return `${pub ? pub + ':' : ''}${priv}/${type}`;
-							// return `${ip ? ip + ':' : ''}${pub} -> ${priv} (${type})`;
-						}).join('<br/>')
-						: '',
+				Ports: this.buildPortLinks(cont.Ports),
 			});
 		}
 
@@ -9065,7 +9192,7 @@ return dm2.dv.extend({
 			const n = net.Name;
 			const _shortId = (net.Id || '').substring(0, 12);
 			const shortLink = E('a', {
-				'href': `${view.dockerman_url}/network/${net.Id}`,
+				'href': `${this.dockerman_url}/network/${net.Id}`,
 				'style': 'font-family: monospace;',
 				'title': _('Click to view this network'),
 			}, [_shortId]);
@@ -10976,234 +11103,6 @@ return view.extend({
 				]),
 			]),
 		]);
-	},
-	/*
-	Since this is a view-only screen, the handlers are disabled
-	Normally, when using something like Map or JSONMap, you would 
-	not null out these handlers, so that the form can be saved/applied.
-    
-	With a RPC data source, you would need to define custom handlers
-	that verify the changes, and make RPC calls to a backend that can
-	process the request.
-	*/
-	handleSave: null,
-	handleSaveApply: null,
-	handleReset: null
-})
-```
-
----
-
-# rpc-jsonmap-tablesection.js
-```javascript
-'use strict';
-'require form';
-'require rpc';
-'require view';
-
-/*
-Declare the RPC calls that are needed. The object value maps to the name
-listed by the shell command
-
-$ ubus list
-
-Custom ucode scripts can be placed in /usr/share/rpcd/ucode, and must emit JSON.
-
-Permissions to make these calls must be granted in /usr/share/rpcd/acl.d
-via a file named the same as the application package name (luci-app-example)
-*/
-const load_sample2 = rpc.declare({
-	object: 'luci.example',
-	method: 'get_sample2'
-});
-
-function capitalize(message) {
-	var arr = message.split(" ");
-	for (var i = 0; i < arr.length; i++) {
-		arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
-	}
-	return arr.join(" ");
-}
-
-return view.extend({
-	generic_failure: function (message) {
-		// Map an error message into a div for rendering
-		return E('div', {
-			'class': 'error'
-		}, [_('RPC call failure: '), message])
-	},
-	render_sample2_using_jsonmap: function (sample) {
-		console.log('render_sample2_using_jsonmap()');
-		console.log(sample);
-
-		// Handle errors as before
-		if (sample.error) {
-			return this.generic_failure(sample.error)
-		}
-
-		// Variables you'll usually see declared in LuCI JS apps; forM, Section, Option
-		let m, s, o;
-
-		/*
-		LuCI has the concept of a JSONMap. This will map a structured object to
-		a configuration form. Normally you'd use this with a UCI-powered result,
-		since saving via an RPC call is going to be more difficult than using the
-		built-in UCI/ubus libraries.
-        
-		https://openwrt.github.io/luci/jsapi/LuCI.form.JSONMap.html
-        
-		Execute   ubus call luci.example get_sample2   to see the JSON being used.
-		*/
-		m = new form.JSONMap(sample, _('JSONMap TableSection Sample'), _(
-			'See browser console for raw data'));
-		// Make the form read-only; this only matters if the apply/save/reset handlers
-		// are not replaced with null to disable them.
-		m.readonly = true;
-		// Set up for a tabbed display
-		m.tabbed = false;
-
-		const option_names = Object.keys(sample);
-		for (var i = option_names.length - 1; i >= 0; i--) {
-			var option_name = option_names[i];
-			var display_name = option_name.replace("_", " ");
-			s = m.section(form.TableSection, option_name, capitalize(display_name), _(
-				'Description for this table section'))
-			o = s.option(form.Value, 'name', _('Option name'));
-			o = s.option(form.Value, 'value', _('Option value'));
-			o = s.option(form.DynamicList, 'parakeets', 'Parakeets');
-		}
-		return m;
-	},
-	/*
-	load() is called on first page load, and the results of each promise are
-	placed in an array in the call order. This array is passed to the render()
-	function as the first argument.
-	*/
-	load: function () {
-		return Promise.all([
-			load_sample2(),
-		]);
-	},
-	// render() is called by the LuCI framework to do any data manipulation, and the
-	// return is used to modify the DOM that the browser shows.
-	render: function (data) {
-		// data[0] will be the result from load_sample2
-		var sample2 = data[0] || {};
-		return this.render_sample2_using_jsonmap(sample2).render();
-	},
-	/*
-	Since this is a view-only screen, the handlers are disabled
-	Normally, when using something like Map or JSONMap, you would 
-	not null out these handlers, so that the form can be saved/applied.
-    
-	With a RPC data source, you would need to define custom handlers
-	that verify the changes, and make RPC calls to a backend that can
-	process the request.
-	*/
-	handleSave: null,
-	handleSaveApply: null,
-	handleReset: null
-})
-```
-
----
-
-# rpc-jsonmap-typedsection.js
-```javascript
-'use strict';
-'require form';
-'require rpc';
-'require view';
-
-/*
-Declare the RPC calls that are needed. The object value maps to the name
-listed by the shell command
-
-$ ubus list
-
-Custom ucode scripts can be placed in /usr/share/rpcd/ucode, and must emit JSON.
-
-Permissions to make these calls must be granted in /usr/share/rpcd/acl.d
-via a file named the same as the application package name (luci-app-example)
-*/
-const load_sample2 = rpc.declare({
-	object: 'luci.example',
-	method: 'get_sample2'
-});
-
-function capitalize(message) {
-	var arr = message.split(" ");
-	for (var i = 0; i < arr.length; i++) {
-		arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
-	}
-	return arr.join(" ");
-}
-
-return view.extend({
-	generic_failure: function (message) {
-		// Map an error message into a div for rendering
-		return E('div', {
-			'class': 'error'
-		}, [_('RPC call failure: '), message])
-	},
-	render_sample2_using_jsonmap: function (sample) {
-		console.log('render_sample2_using_jsonmap()');
-		console.log(sample);
-
-		// Handle errors as before
-		if (sample.error) {
-			return this.generic_failure(sample.error)
-		}
-
-		// Variables you'll usually see declared in LuCI JS apps; forM, Section, Option
-		let m, s, o;
-
-		/*
-		LuCI has the concept of a JSONMap. This will map a structured object to
-		a configuration form. Normally you'd use this with a UCI-powered result,
-		since saving via an RPC call is going to be more difficult than using the
-		built-in UCI/ubus libraries.
-        
-		https://openwrt.github.io/luci/jsapi/LuCI.form.JSONMap.html
-        
-		Execute   ubus call luci.example get_sample2   to see the JSON being used.
-		*/
-		m = new form.JSONMap(sample, _('JSONMap TypedSection Sample'), _(
-			'See browser console for raw data'));
-		// Make the form read-only; this only matters if the apply/save/reset handlers
-		// are not replaced with null to disable them.
-		m.readonly = true;
-		// Set up for a tabbed display
-		m.tabbed = true;
-
-		const option_names = Object.keys(sample);
-		for (var i = option_names.length - 1; i >= 0; i--) {
-			var option_name = option_names[i];
-			var display_name = option_name.replace("_", " ");
-			s = m.section(form.TypedSection, option_name, capitalize(display_name), _(
-				'Description for this typed section'))
-			o = s.option(form.Value, 'name', _('Option name'));
-			o = s.option(form.Value, 'value', _('Option value'));
-			o = s.option(form.DynamicList, 'parakeets', 'Parakeets');
-		}
-		return m;
-	},
-	/*
-	load() is called on first page load, and the results of each promise are
-	placed in an array in the call order. This array is passed to the render()
-	function as the first argument.
-	*/
-	load: function () {
-		return Promise.all([
-			load_sample2(),
-		]);
-	},
-	// render() is called by the LuCI framework to do any data manipulation, and the
-	// return is used to modify the DOM that the browser shows.
-	render: function (data) {
-		// data[0] will be the result from load_sample2
-		var sample2 = data[0] || {};
-		return this.render_sample2_using_jsonmap(sample2).render();
 	},
 	/*
 	Since this is a view-only screen, the handlers are disabled

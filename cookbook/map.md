@@ -1,7 +1,7 @@
 # cookbook Navigation Map
 
 > **Contains:** Headers and function signatures for cookbook.
-> **Generated:** 2026-04-01T13:49:25.808980+00:00
+> **Generated:** 2026-05-15T22:05:35.320175+00:00
 
 ---
 
@@ -35,6 +35,26 @@
 ### CORRECT
 ### WRONG: rpcd plugin without an ACL file
 ### CORRECT
+## Related Topics
+## Verification Notes
+
+
+> **Summary:** Minimal current-era skeleton for a standalone OpenWrt C daemon that initializes uloop, connects to ubus, binds the bus into the loop, and blocks cleanly in the event loop.
+# C libubus Daemon Runtime Pattern
+## Overview
+## Complete Working Example
+#include <stdio.h>
+#include <libubox/uloop.h>
+#include <libubus.h>
+## Step-by-Step Explanation
+### Initialize the event loop first
+### Connect to ubus
+### Bind ubus into uloop
+### Enter the loop only after setup is complete
+## Anti-Patterns
+### WRONG: Sleeping forever instead of using the event loop
+### WRONG: Omitting `ubus_add_uloop()`
+### WRONG: Connecting to ubus before loop setup
 ## Related Topics
 ## Verification Notes
 
@@ -338,17 +358,20 @@
 ### `procd_set_param command`
 ### `procd_set_param respawn`
 ### `service_triggers` and `procd_add_reload_trigger`
+### Typed UCI validation with `uci_load_validate`
 ## Anti-Patterns
 ### WRONG: sysvinit-style start/stop without USE_PROCD
 #!/bin/sh /etc/rc.common
 ### CORRECT: USE_PROCD with procd_set_param
 ### WRONG: Hardcoding config values in the command
 ### CORRECT: Load from UCI in start_service
+### WRONG: Validating with grep or regex against `/etc/config/`
 ## Running user and resource limits
 # Run the service as a non-root user (user must exist on the system)
 # Optional: set resource limits (ulimit-style)
 ## Related Topics
 ## Verification Notes
+
 
 
 
@@ -401,6 +424,44 @@
 ### CORRECT: Use cursor set + commit
 ### WRONG: Forgetting commit()
 ## Using uci in an rpcd plugin
+## Related Topics
+## Verification Notes
+
+
+
+> **Summary:** Source-backed pattern for running external commands from ucode with fs.popen() and wiring live output into the uloop event system with explicit read events.
+# ucode Async Process Pattern
+## Overview
+## Complete Working Example
+#!/usr/bin/env ucode
+## Step-by-Step Explanation
+### `fs.popen()` returns the process handle you monitor
+### `uloop.handle()` needs an explicit event mask
+### Stream the process incrementally
+### `uloop.run()` drives the whole script
+## Anti-Patterns
+### WRONG: Shell background jobs inside ucode
+### WRONG: FIFO fan-in and manual multiplexing
+### WRONG: Inventing descriptor reads for process handles
+## Related Topics
+## Verification Notes
+
+
+
+> **Summary:** Correct current-era pattern for reading files and parsing JSON directly in ucode with fs.readfile() and json(), without shell wrappers or external parsers.
+# ucode Native File IO and JSON
+## Overview
+## Complete Working Example
+#!/usr/bin/env ucode
+## Step-by-Step Explanation
+### `fs.readfile()` is the normal file-read entry point
+### `json()` parses structured input directly
+### Handle bad files and bad JSON separately
+### Keep this separate from UCI work
+## Anti-Patterns
+### WRONG: Shelling out to `cat` and `jq`
+### WRONG: Parsing JSON with grep, sed, or awk
+### WRONG: Using UCI APIs for non-UCI JSON files
 ## Related Topics
 ## Verification Notes
 

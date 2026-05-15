@@ -2,9 +2,9 @@
 title: 'ucode module: math'
 module: ucode
 origin_type: c_source
-token_count: 2848
+token_count: 3128
 source_file: L1-raw/ucode/c_source-api-module-math.md
-last_pipeline_run: '2026-04-01T13:49:08.540826+00:00'
+last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
 source_commit: unknown
 source_url: https://github.com/nicowillis/ucode/blob/unknown/lib/math.c
 source_locator: lib/math.c
@@ -22,7 +22,7 @@ ai_related_topics:
 
 > **Source:** [https://github.com/nicowillis/ucode/blob/unknown/lib/math.c](https://github.com/nicowillis/ucode/blob/unknown/lib/math.c)
 > **Kind:** c_source | **Commit:** unknown | **Method:** normalized
-> **Normalized:** 2026-04-01
+> **Normalized:** 2026-05-15
 
 # ucode module: math
 
@@ -108,7 +108,7 @@ returned.
 ### math.cos(x) ⇒ `number`
 Calculates the cosine of `x`, where `x` is given in radians.
 
-Returns the resulting consine value.
+Returns the resulting cosine value.
 
 Returns `NaN` if the `x` value can't be converted to a number.
 
@@ -143,7 +143,7 @@ Calculates the natural logarithm of `x`.
 On success, returns the natural logarithm of `x`.
 
  - If `x` is `1`, the result is `+0`.
- - If `x` is positive nfinity, positive infinity is returned.
+ - If `x` is positive infinity, positive infinity is returned.
  - If `x` is zero, then a pole error occurs, and the function
    returns negative infinity.
  - If `x` is negative (including negative infinity), then a domain
@@ -155,7 +155,7 @@ Returns `NaN` if the `x` value can't be converted to a number.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| x | `number` | Value to calulate natural logarithm of. |
+| x | `number` | Value to calculate natural logarithm of. |
 
 ### math.sin(x) ⇒ `number`
 Calculates the sine of `x`, where `x` is given in radians.
@@ -174,7 +174,7 @@ Returns `NaN` if the `x` value can't be converted to a number.
 | x | `number` | Radians value to calculate sine for. |
 
 ### math.sqrt(x) ⇒ `number`
-Calculates the nonnegative square root of `x`.
+Calculates the non-negative square root of `x`.
 
 Returns the resulting square root value.
 
@@ -213,7 +213,7 @@ On success, returns the value of `x` raised to the power of `y`.
  - If `x` is `+1`, the result is `1.0` (even if `y` is `NaN`).
  - If `y` is `0`, the result is `1.0` (even if `x` is `NaN`).
  - If `x` is a finite value less than `0`, and `y` is a finite
-   noninteger, a domain error occurs, and `NaN` is returned.
+   non-integer, a domain error occurs, and `NaN` is returned.
  - If the absolute value of `x` is less than `1`, and `y` is negative
    infinity, the result is positive infinity.
  - If the absolute value of `x` is greater than `1`, and `y` is
@@ -303,3 +303,37 @@ Note that a value can also be checked for `NaN` with the expression
 | Param | Type | Description |
 | --- | --- | --- |
 | x | `number` | The value to test. |
+
+### math.deg2rad(number) ⇒ `number`
+Returns the radian value of the given degree value.
+
+**Kind**: instance method of [`math`](#module_math)  
+**Returns**: `number` - Returns the absolute value or `NaN` if the given argument could
+not be converted to a number.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| number | `double` | The number to return the radian value for. |
+
+**Example**  
+```ucode
+deg2rad(180);   // 3.1415926535898
+deg2rad("180"); // 3.1415926535898
+```
+
+### math.rad2deg(number) ⇒ `number`
+Returns the degree value of the given radian value.
+
+**Kind**: instance method of [`math`](#module_math)  
+**Returns**: `number` - Returns the absolute value or `NaN` if the given argument could
+not be converted to a number.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| number | `double` | The number to return the degree value for. |
+
+**Example**  
+```ucode
+rad2deg(3.1415926535898);   // 180.0
+rad2deg("3.1415926535898"); // 180.0
+```

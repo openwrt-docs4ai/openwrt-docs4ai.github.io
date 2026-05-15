@@ -4,7 +4,7 @@ module: wiki
 origin_type: wiki_page
 token_count: 3337
 source_file: L1-raw/wiki/wiki_page-techref-filesystems.md
-last_pipeline_run: '2026-04-01T13:49:08.540826+00:00'
+last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
 source_url: https://openwrt.org/docs/techref/filesystems
 language: text
 ai_summary: The Filesystems module in OpenWrt provides an overview of various file systems utilized for device built-in flash storage. It covers common file systems such as OverlayFS, tmpfs, SquashFS, and JFFS2, detailing their characteristics, advantages, and limitations. OverlayFS is used to merge read-only and writable file systems, while tmpfs operates like a RAM-Disk for temporary storage. SquashFS is a read-only compressed file system, and JFFS2 is a writable compressed file system with journaling and wear leveling features.
@@ -20,7 +20,7 @@ ai_related_topics:
 
 > **Source:** [https://openwrt.org/docs/techref/filesystems](https://openwrt.org/docs/techref/filesystems)
 > **Kind:** wiki_page | **Method:** scraped
-> **Normalized:** 2026-04-01
+> **Normalized:** 2026-05-15
 
 # Filesystems
 
@@ -116,7 +116,7 @@ The [flash.layout](/docs/techref/flash.layout) article documents how OpenWrt use
 
 System bootup is as follows: -\>[process.boot](process.boot)
 
-1.  kernel boots from a known raw partition (without a FS), scans mtd partition *rootfs* for a valid superblock and mounts the SquashFS partition (containing `/etc`) then runs `/etc/preinit`. (More info at [filesystems#technical.details](/docs/techref/filesystems#technical.details))
+1.  kernel boots from a known raw partition (without a FS), scans mtd partition *rootfs* for a valid superblock and mounts the SquashFS partition (containing `/etc`) then runs `/etc/preinit`. (More info at [filesystems#technical_details](/docs/techref/filesystems#technical_details))
 2.  `/etc/preinit` runs `/sbin/mount_root`
 3.  `mount_root` mounts the JFFS2 partition (`/overlay`) and **combines** it with the SquashFS partition (`/rom`) to create a new *virtual root filesystem* (`/`)
 4.  bootup continues with `/sbin/init`

@@ -4,7 +4,7 @@ module: wiki
 origin_type: wiki_page
 token_count: 2003
 source_file: L1-raw/wiki/wiki_page-guide-developer-device-support-policies.md
-last_pipeline_run: '2026-04-01T13:49:08.540826+00:00'
+last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
 source_url: https://openwrt.org/docs/guide-developer/device-support-policies
 language: text
 ai_summary: The Device support policies / best practices document outlines guidelines for developers submitting device support patches in OpenWrt. It emphasizes the importance of clear commit messages, including specifications and flashing instructions, and provides recommendations for structuring DTS files, such as using consistent naming conventions and proper licensing. Additional tips are offered for enhancing readability and organizing device properties, particularly regarding LED configurations. Following these guidelines can improve the submission experience for both developers and reviewers.
@@ -18,7 +18,7 @@ ai_related_topics:
 
 > **Source:** [https://openwrt.org/docs/guide-developer/device-support-policies](https://openwrt.org/docs/guide-developer/device-support-policies)
 > **Kind:** wiki_page | **Method:** scraped
-> **Normalized:** 2026-04-01
+> **Normalized:** 2026-05-15
 
 # Device support policies / best practices
 
@@ -119,7 +119,7 @@ Where possible, add your device to an existing block instead of creating a new o
 
 ### No wildcards
 
-Occationally, you might be tempted to use wildcards in a case like the following:
+Occasionally, you might be tempted to use wildcards in a case like the following:
 
     vendor_model-v1|\
     vendor_model-v2)

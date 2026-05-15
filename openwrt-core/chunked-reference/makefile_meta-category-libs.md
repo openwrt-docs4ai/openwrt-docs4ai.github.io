@@ -2,18 +2,31 @@
 title: 'OpenWrt Buildroot: libs packages'
 module: openwrt-core
 origin_type: makefile_meta
-token_count: 5280
+token_count: 5270
 source_file: L1-raw/openwrt-core/makefile_meta-category-libs.md
-last_pipeline_run: '2026-04-01T13:49:08.540826+00:00'
+last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
 source_commit: unknown
 source_url: https://github.com/openwrt/openwrt/blob/unknown/package/libs
 source_locator: package/libs
 language: makefile
+ai_summary: 'The OpenWrt Buildroot: libs packages module provides a collection of libraries essential for various functionalities in OpenWrt. It includes libraries such as argp-standalone for argument parsing, elfutils for handling ELF files, and jansson for JSON data manipulation. Each library is maintained by different contributors and is available under various licenses, ensuring a wide range of capabilities for developers. The module facilitates the integration of these libraries into OpenWrt builds, enhancing the overall performance and feature set of the system.'
+ai_when_to_use: Use this module when you need to incorporate specific libraries into your OpenWrt build for enhanced functionality, such as JSON processing or advanced argument parsing.
+ai_related_topics:
+- argp-standalone
+- elfutils
+- gettext-full
+- gmp
+- gnulib-l10n
+- jansson
+- libbpf
+- libbsd
+- libcap
+- libevent2
 ---
 
 > **Source:** [https://github.com/openwrt/openwrt/blob/unknown/package/libs](https://github.com/openwrt/openwrt/blob/unknown/package/libs)
 > **Kind:** makefile_meta | **Commit:** unknown | **Method:** normalized
-> **Normalized:** 2026-04-01
+> **Normalized:** 2026-05-15
 
 # OpenWrt Buildroot: libs packages
 
@@ -108,7 +121,7 @@ libbpf is a library for loading eBPF programs and reading and manipulating eBPF 
 
 | Field | Value |
 |---|---|
-| Version | 1.6.2 |
+| Version | 1.7.0 |
 | Maintainer | Tony Ambardar <itugrok@yahoo.com> |
 | Source URL | https://github.com/libbpf/libbpf |
 
@@ -211,7 +224,7 @@ libmnl is a minimalistic user-space library oriented to Netlink developers. Ther
 | Version | 1.0.5 |
 | License | LGPL-2.1+ |
 | Maintainer | Jo-Philipp Wich <jo@mein.io> |
-| Source URL | http://www.netfilter.org/projects/libmnl/files ftp://ftp.netfilter.org/pub/libmnl |
+| Source URL | https://www.netfilter.org/projects/libmnl/files https://ftp.netfilter.org/pub/libmnl |
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/libs/libmnl
@@ -241,7 +254,7 @@ libnfnetlink is is the low-level library for netfilter related kernel/userspace 
 | Version | 1.0.2 |
 | License | GPL-2.0+ |
 | Maintainer | Jo-Philipp Wich <jo@mein.io> |
-| Source URL | http://www.netfilter.org/projects/libnfnetlink/files/ ftp://ftp.netfilter.org/pub/libnfnetlink/ |
+| Source URL | https://www.netfilter.org/projects/libnfnetlink/files/ https://ftp.netfilter.org/pub/libnfnetlink/ |
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/libs/libnfnetlink
@@ -310,7 +323,7 @@ libselinux is the runtime SELinux library that provides interfaces (e.g. library
 
 | Field | Value |
 |---|---|
-| Version | 3.9 |
+| Version | 3.10 |
 | License | libselinux-1.0 |
 | Maintainer | Thomas Petazzoni <thomas.petazzoni@bootlin.com> |
 | Source URL | https://github.com/SELinuxProject/selinux/releases/download/$(PKG_VERSION) |
@@ -325,7 +338,7 @@ libsemanage is the policy management library. It uses libsepol for binary policy
 
 | Field | Value |
 |---|---|
-| Version | 3.9 |
+| Version | 3.10 |
 | License | LGPL-2.1 |
 | Maintainer | Thomas Petazzoni <thomas.petazzoni@bootlin.com> |
 | Source URL | https://github.com/SELinuxProject/selinux/releases/download/$(PKG_VERSION) |
@@ -340,7 +353,7 @@ Libsepol is the binary policy manipulation library. It doesn't depend upon or us
 
 | Field | Value |
 |---|---|
-| Version | 3.9 |
+| Version | 3.10 |
 | Maintainer | Thomas Petazzoni <thomas.petazzoni@bootlin.com> |
 | Source URL | https://github.com/SELinuxProject/selinux/releases/download/$(PKG_VERSION) |
 
@@ -465,7 +478,7 @@ $(call Package/mbedtls/Default/description) This package contains the mbedtls li
 
 | Field | Value |
 |---|---|
-| Version | 3.6.5 |
+| Version | 3.6.6 |
 | License | GPL-2.0-or-later |
 | Source URL | https://github.com/Mbed-TLS/$(PKG_NAME)/releases/download/$(PKG_NAME)-$(PKG_VERSION) |
 
@@ -482,7 +495,7 @@ MPFR is a portable library written in C for arbitrary precision arithmetic on fl
 | Version | 4.2.2 |
 | License | LGPL-3.0-or-later |
 | Maintainer | Jeffery To <jeffery.to@gmail.com> |
-| Source URL | @GNU/mpfr http://www.mpfr.org/mpfr-$(PKG_VERSION) |
+| Source URL | @GNU/mpfr https://www.mpfr.org/mpfr-$(PKG_VERSION) |
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/libs/mpfr
@@ -533,7 +546,7 @@ $(call Package/openssl/Default/description) This package contains the OpenSSL sh
 
 | Field | Value |
 |---|---|
-| Version | 3.5.5 |
+| Version | 3.5.6 |
 | License | Apache-2.0 |
 | Maintainer | Eneas U de Queiroz <cotequeiroz@gmail.com> |
 | Source URL | https://www.openssl.org/source/ https://www.openssl.org/source/old/$(PKG_BASE)/ https://github.com/openssl/openssl/relea |
@@ -561,7 +574,7 @@ $(call Package/openssl/Default/description) This package contains the OpenSSL sh
 |---|---|
 | Version | 1.19 |
 | License | MIT |
-| Source URL | http://ftp.rpm.org/popt/releases/popt-1.x/ |
+| Source URL | @OPENWRT |
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/libs/popt
@@ -646,7 +659,7 @@ wolfSSL (formerly CyaSSL) is an SSL library optimized for small footprint, both 
 
 | Field | Value |
 |---|---|
-| Version | 5.9.0 |
+| Version | 5.9.1 |
 | License | GPL-3.0-or-later |
 | Maintainer | Eneas U de Queiroz <cotequeiroz@gmail.com> |
 | Source URL | https://github.com/wolfSSL/wolfssl/archive/v$(PKG_REAL_VERSION) |

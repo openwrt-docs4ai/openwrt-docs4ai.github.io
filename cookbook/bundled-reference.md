@@ -1,15 +1,15 @@
 ---
 module: cookbook
-total_token_count: 35804
-section_count: 17
+total_token_count: 40574
+section_count: 20
 is_monolithic: true
-generated: '2026-04-01T13:49:25.808980+00:00'
+generated: '2026-05-15T22:05:35.320175+00:00'
 ---
 
 # cookbook Bundled Reference
 
-> **Contains:** 17 documents concatenated
-> **Tokens:** ~35804 (cl100k_base)
+> **Contains:** 20 documents concatenated
+> **Tokens:** ~40574 (cl100k_base)
 
 ---
 
@@ -324,6 +324,143 @@ endef
 - Reviewed by: placeholder
 - Last reviewed: 2026-03-23
 - Known limitation: ubus layer is referenced but not detailed here; inter-component IPC via ubus is out of scope for this overview
+
+---
+
+# C libubus Daemon Runtime Pattern
+
+> **When to use:** Use when the backend must be a native C daemon and needs the OpenWrt event loop and ubus runtime directly. If the real task is only a small privileged backend API for LuCI, prefer [ucode rpcd Service Pattern](./chunked-reference/ucode-rpcd-service-pattern.md) instead.
+> **Key components:** C, libubox, uloop, libubus
+> **Era:** Current (23.x+). The durable startup order is `uloop_init()` -> `ubus_connect()` -> `ubus_add_uloop()` -> `uloop_run()`.
+
+## Overview
+
+The foundational OpenWrt C daemon boundary is not “open a socket and sleep forever”. It is:
+
+1. initialize the uloop runtime
+2. connect to the system bus
+3. register the ubus file descriptor with the uloop event loop
+4. enter the loop
+
+Missing step 3 is a common failure. The process may appear to have started, but no ubus traffic will ever be integrated into the loop correctly.
+
+## Complete Working Example
+
+```c
+#include <stdio.h>
+
+#include <libubox/uloop.h>
+#include <libubus.h>
+
+int main(void)
+{
+	struct ubus_context *ctx;
+
+	uloop_init();
+
+	ctx = ubus_connect(NULL);
+	if (!ctx) {
+		fprintf(stderr, "failed to connect to ubus\n");
+		uloop_done();
+		return 1;
+	}
+
+	ubus_add_uloop(ctx);
+
+	/*
+	 * Object registration or request handlers would be added here.
+	 * This skeleton is intentionally limited to the runtime contract.
+	 */
+
+	uloop_run();
+
+	ubus_free(ctx);
+	uloop_done();
+	return 0;
+}
+```
+
+This is the minimal current-era runtime skeleton. It does not register objects or methods yet; it only establishes the correct daemon lifecycle and event-loop integration.
+
+## Step-by-Step Explanation
+
+### Initialize the event loop first
+
+```c
+uloop_init();
+```
+
+The daemon needs the loop runtime before it can safely integrate ubus into that loop. Reversing the order creates a runtime contract violation.
+
+### Connect to ubus
+
+```c
+ctx = ubus_connect(NULL);
+```
+
+Passing `NULL` uses the default system ubus socket. If the connection fails, stop immediately and return a clear error instead of dropping into an inert loop.
+
+### Bind ubus into uloop
+
+```c
+ubus_add_uloop(ctx);
+```
+
+This is the critical call most generic answers miss. Connecting to ubus is not enough. The ubus file descriptor must still be attached to the uloop event system or the daemon will never participate correctly in bus activity.
+
+### Enter the loop only after setup is complete
+
+```c
+uloop_run();
+```
+
+Once the loop starts, the daemon waits for events. Registration of objects, watchers, or subscriptions should happen before this call.
+
+## Anti-Patterns
+
+### WRONG: Sleeping forever instead of using the event loop
+
+```c
+while (1) {
+	sleep(5);
+}
+```
+
+**Why it fails:** This creates a generic Unix daemon shape, not an OpenWrt ubus-integrated runtime. There is no event dispatch, no ubus loop integration, and no proper handoff to libubox.
+
+### WRONG: Omitting `ubus_add_uloop()`
+
+```c
+uloop_init();
+ctx = ubus_connect(NULL);
+uloop_run();
+```
+
+**Why it fails:** The daemon connected to ubus, but it never registered the ubus file descriptor with the event loop. This is the exact failure shape that triggered the cookbook gap.
+
+### WRONG: Connecting to ubus before loop setup
+
+```c
+ctx = ubus_connect(NULL);
+uloop_init();
+ubus_add_uloop(ctx);
+```
+
+**Why it fails:** The current-era pattern initializes the loop runtime first. Reordering this setup is a bad default to teach because it obscures the runtime contract and drifts from current OpenWrt practice.
+
+## Related Topics
+
+- [ucode rpcd Service Pattern](./chunked-reference/ucode-rpcd-service-pattern.md) - use this when a small rpcd plugin is sufficient and a native C daemon would be unnecessary complexity
+- [ubus Observability Pattern](./chunked-reference/ubus-observability-pattern.md) - use this when the daemon's real job is publishing runtime state for other components to consume
+- [Architecture Overview](./chunked-reference/architecture-overview.md) - use this when deciding whether the backend belongs in C, ucode rpcd, or another boundary
+
+## Verification Notes
+
+- `ubus_add_uloop()` presence verified from current upstream sources including `tmp/authoring-repos/repo-procd/ubus.c`, `tmp/authoring-repos/repo-ucode-full/lib/ubus.c`, and `tmp/authoring-repos/repo-uhttpd/ubus.c`
+- frozen Scenario 12 truth packet confirms required runtime order: `uloop_init()` -> `ubus_connect()` -> `ubus_add_uloop()` -> `uloop_run()`
+- adjacent existing cookbook page checked: `static/cookbook-source/ucode-rpcd-service-pattern.md`
+- scenario packet reference for this page: `docs/plans/v14/openwrt-cookbook/artifacts/scenario-packets/03-scn-2026-003-c-libubus-daemon-skeleton.yaml`
+- known limitation: this page is intentionally limited to daemon startup and event-loop binding, not object registration or blobmsg handler implementation
 
 ---
 
@@ -2710,7 +2847,7 @@ procd is OpenWrt's init system and process supervisor. Unlike sysvinit, procd ma
 
 Every `/etc/init.d/` script on a current OpenWrt system uses the procd API via sourcing `/lib/functions.sh` (which transitively loads the procd helper functions). The API is provided by `procd.sh` and exposes a small set of functions for declaring service instances.
 
-The lifecycle is three phases: **start_service** (declare the supervised instance), **stop_service** (optional override; procd handles SIGTERM by default), and **reload_service** or **service_triggers** (UCI-aware reload without full restart).
+The lifecycle is three phases: **start_service** (declare the supervised instance), **stop_service** (optional override; procd handles SIGTERM by default), and **reload_service** or **service_triggers** (UCI-aware reload without full restart). When the service depends on typed UCI config, the lifecycle also needs a validation boundary: `uci_load_validate` should sanitize and coerce config before procd ever launches the daemon.
 
 ## Complete Working Example
 
@@ -2809,9 +2946,61 @@ The three values are:
 
 Setting `max_fail 0` means infinite restarts. Setting it to 5 means the process is abandoned after 5 failures in the time window.
 
+The example values in this page are illustrative, not universal defaults. Keep the pattern, but tune the thresholds and restart timeout for the actual daemon's failure mode and recovery cost.
+
 ### `service_triggers` and `procd_add_reload_trigger`
 
 This is the UCI integration point. `procd_add_reload_trigger 'myapp'` means: whenever `uci commit myapp` is called (by any process), procd will call this service's `reload_service` function. Without this, config changes require manual `service myapp restart`.
+
+### Typed UCI validation with `uci_load_validate`
+
+Use `uci_load_validate` when the service cannot safely treat config values as unchecked strings. This is the current-era OpenWrt pattern for typed config validation inside a procd init script.
+
+```bash
+validate_myapp_section() {
+    uci_load_validate "myapp" "myapp" "$1" "$2" \
+        'enabled:bool:0' \
+        'loglevel:uinteger:4' \
+        'listen_port:port:8080'
+}
+
+load_myapp() {
+    local section="$1"
+
+    [ "$2" = 0 ] || {
+        echo "validation failed for section $section" >&2
+        return 1
+    }
+
+    [ "$enabled" = "1" ] || return 0
+
+    procd_open_instance
+    procd_set_param command /usr/bin/myapp --loglevel "$loglevel" --port "$listen_port"
+    procd_set_param respawn
+    procd_set_param stdout 1
+    procd_set_param stderr 1
+    procd_close_instance
+}
+
+start_service() {
+    config_load "myapp"
+    config_foreach validate_myapp_section "myapp" load_myapp
+}
+
+service_triggers() {
+    procd_add_reload_trigger "myapp"
+    procd_add_validation validate_myapp_section
+}
+```
+
+What this does:
+
+- `uci_load_validate` checks the section against typed rules before launch
+- validated option values are exported into local shell variables like `$loglevel`
+- `config_foreach` ties validation and instance creation together per section
+- `procd_add_validation` registers the validator so config-driven reload paths stay aligned with the same schema
+
+Use this pattern instead of hand-written `grep`, `awk`, or regex parsing against `/etc/config/myapp`. Those generic shell checks bypass the OpenWrt validation contract and drift quickly when the config evolves.
 
 ## Anti-Patterns
 
@@ -2869,6 +3058,22 @@ service_triggers() {
 }
 ```
 
+### WRONG: Validating with grep or regex against `/etc/config/`
+
+```bash
+start_service() {
+    local loglevel
+    loglevel="$(grep "option loglevel" /etc/config/myapp | awk '{ print $3 }')"
+    echo "$loglevel" | grep -Eq '^[0-9]+$' || return 1
+
+    procd_open_instance
+    procd_set_param command /usr/bin/myapp --loglevel "$loglevel"
+    procd_close_instance
+}
+```
+
+**Why it fails:** UCI config is not meant to be parsed as ad hoc text inside init scripts. This bypasses the validation helpers shipped with procd, makes anonymous sections awkward, and breaks as soon as quoting, defaults, or option types evolve.
+
 ## Running user and resource limits
 
 ```bash
@@ -2893,8 +3098,12 @@ Drop privileges by setting `user` and `group` parameters. These are applied befo
 
 - procd API (`procd_open_service`, `procd_open_instance`, `procd_set_param`, etc.) verified against `procd/header_api-procd-api.md` in corpus
 - `procd_add_reload_trigger` function name verified from same source
+- `uci_load_validate()` helper signature verified from `tmp/authoring-repos/repo-openwrt-full/package/system/procd/files/procd.sh`
+- real `uci_load_validate` call shape verified from `tmp/authoring-repos/repo-packages/utils/rtl-ais/files/rtl_ais.init` and `tmp/authoring-repos/repo-packages/net/aria2/files/aria2.init`
 - `USE_PROCD=1` pattern and `service_triggers` function verified from `wiki/wiki_page-guide-developer-procd-init-scripts.md` file listing
 - respawn parameter order (fail_threshold, restart_timeout, max_fail) matches procd corpus documentation
+- Scenario packet reference for this extension: `docs/plans/v14/openwrt-cookbook/artifacts/scenario-packets/04-scn-2026-004-procd-uci-load-validate-loglevel.yaml`
+- Known limitation: `reviewed_by` remains `placeholder` until a human maintainer claims final reviewer ownership
 
 ---
 
@@ -3433,6 +3642,277 @@ See [Architecture Overview](./chunked-reference/architecture-overview.md) §ACL 
 - `@type[0]` anonymous section syntax verified from ucode module docs
 - `import { cursor } from 'uci'` as standard import pattern confirmed from luci-examples corpus (`example.uc`)
 - rpcd plugin return format (`return { 'luci.myapp': methods }`) confirmed from `example_app-luci-app-example-root-usr-share-rpcd-ucode-example-uc.md`
+
+---
+
+# ucode Async Process Pattern
+
+> **When to use:** Use when a ucode script must run an external command and stream its output as it arrives, especially when two or more commands need to be observed concurrently. This is the OpenWrt-native replacement for shell `&` background jobs, `mkfifo` fan-in tricks, and ad hoc `while read` multiplexing.
+> **Key components:** ucode, fs module, uloop module, process handles
+> **Era:** Current (23.x+). Treat `fs.popen()` plus `uloop.handle(..., uloop.ULOOP_READ)` as the durable async boundary for ucode process streaming.
+
+## Overview
+
+The durable pattern is:
+
+1. launch the command with `fs.popen()` in read mode
+2. hand the returned process handle to `uloop.handle()`
+3. pass the explicit event mask `uloop.ULOOP_READ`
+4. read output incrementally inside the callback with `proc.read("line")`
+
+This matters because the most common blind AI failure in this area is to treat ucode like shell glue: start two processes with `&`, merge them through FIFOs, and then parse the combined stream manually. That is exactly the wrong abstraction level on current OpenWrt. ucode already has a native event loop and handle model. Use it.
+
+## Complete Working Example
+
+```ucode
+#!/usr/bin/env ucode
+'use strict';
+
+import * as fs from 'fs';
+import * as uloop from 'uloop';
+
+const targets = [ '10.10.10.2', '10.10.10.3' ];
+
+function attach_ping(target) {
+	let proc = fs.popen(`ping ${target}`, 'r');
+
+	if (!proc)
+		die(`failed to launch ping for ${target}: ${fs.error()}\n`);
+
+	uloop.handle(proc, function(events) {
+		if (!(events & uloop.ULOOP_READ))
+			return;
+
+		let line;
+
+		while ((line = proc.read('line')) != null)
+			print(`${target}: ${line}`);
+	}, uloop.ULOOP_READ);
+}
+
+for (let target in targets)
+	attach_ping(target);
+
+uloop.run();
+uloop.done();
+```
+
+This example keeps both `ping` processes live and lets uloop deliver whichever stream becomes readable first. Each printed line is tagged with its source target so the merged output stays understandable.
+
+## Step-by-Step Explanation
+
+### `fs.popen()` returns the process handle you monitor
+
+```ucode
+let proc = fs.popen(`ping ${target}`, 'r');
+```
+
+`fs.popen()` launches the child process and returns a process-handle object. That handle is the thing you pass to `uloop.handle()`. Do not invent your own descriptor wrapper and do not shell out only to read all output later in one batch.
+
+### `uloop.handle()` needs an explicit event mask
+
+```ucode
+uloop.handle(proc, callback, uloop.ULOOP_READ);
+```
+
+The event mask is not optional. The common failure shape is to register the callback without `uloop.ULOOP_READ`, which means the script never declares what event should wake the callback.
+
+### Stream the process incrementally
+
+```ucode
+while ((line = proc.read('line')) != null)
+	print(`${target}: ${line}`);
+```
+
+Use `read('line')` when the producer emits line-oriented output. This keeps memory bounded and lets the script react to each new line as soon as it arrives. For JSON blobs or one-shot command output, `read('all')` may be fine, but that is a different task boundary.
+
+### `uloop.run()` drives the whole script
+
+```ucode
+uloop.run();
+uloop.done();
+```
+
+`uloop.run()` blocks and dispatches readable-handle callbacks until the script is interrupted or the loop is explicitly ended. `uloop.done()` then releases the loop state. For continuously running commands like `ping`, the script intentionally stays alive until the operator stops it.
+
+For finite commands, extend this pattern with explicit EOF cleanup: when `proc.read('line')` starts returning `null`, unregister the handle, decrement any active-job counter, and call `uloop.end()` once the last process finishes.
+
+## Anti-Patterns
+
+### WRONG: Shell background jobs inside ucode
+
+```ucode
+system('ping 10.10.10.2 &');
+system('ping 10.10.10.3 &');
+```
+
+**Why it fails:** This punts concurrency back to the shell, gives you no structured ownership of the process handles, and leaves output interleaving to shell behavior rather than the ucode event loop.
+
+### WRONG: FIFO fan-in and manual multiplexing
+
+```sh
+mkfifo /tmp/ping.pipe
+ping 10.10.10.2 > /tmp/ping.pipe &
+ping 10.10.10.3 > /tmp/ping.pipe &
+while read line; do
+	echo "$line"
+done < /tmp/ping.pipe
+```
+
+**Why it fails:** This is a shell hack, not a ucode pattern. It creates extra state, makes provenance of each line ambiguous, and throws away the current OpenWrt runtime's native async handle model.
+
+### WRONG: Inventing descriptor reads for process handles
+
+```ucode
+let proc = fs.popen('ping 10.10.10.2', 'r');
+let buf = fs.read(proc, 128);
+```
+
+**Why it fails:** The process handle already exposes the read surface. The blind-failure pattern here is to imagine a POSIX-style raw descriptor API that the ucode fs layer does not provide for this task.
+
+## Related Topics
+
+- [UCI Read/Write from ucode](./chunked-reference/uci-read-write-from-ucode.md) - use this when the script's real job is persistent config mutation rather than async process IO
+- [ucode rpcd Service Pattern](./chunked-reference/ucode-rpcd-service-pattern.md) - use this when the output should become a backend API rather than terminal streaming
+- [Architecture Overview](./chunked-reference/architecture-overview.md) - use this when deciding whether work belongs in ucode, rpcd, ubus, or the browser
+- [ucode fs module reference](../ucode/chunked-reference/c_source-api-module-fs.md) - detailed handle and read semantics
+- [ucode uloop module reference](../ucode/chunked-reference/c_source-api-module-uloop.md) - detailed event loop and event constant reference
+
+## Verification Notes
+
+- `fs.popen(command, [mode])` and process-handle reading verified from corpus `ucode/c_source-api-module-fs.md` and condensed ucode references
+- `uloop.handle(handle, callback, events)` and `uloop.run()` verified from corpus `ucode/c_source-api-module-uloop.md`
+- explicit `ULOOP_READ` usage verified from `tmp/authoring-repos/repo-openwrt-full/package/network/services/unetmsg/files/usr/share/ucode/unetmsg/unetmsgd-remote.uc`
+- line-oriented `read("line")` usage verified from current upstream ucode examples under `tmp/authoring-repos/repo-openwrt-full/package/network/services/hostapd/files/hostapd.uc`
+- scenario packet reference for this page: `docs/plans/v14/openwrt-cookbook/artifacts/scenario-packets/01-scn-2026-001-ucode-async-ping-streams.yaml`
+- finite-command cleanup is intentionally documented as an extension because the primary remediation target is continuous multi-stream output
+- known limitation: the example demonstrates the current streaming pattern, but `reviewed_by` remains `placeholder` until a human maintainer performs final review
+
+---
+
+# ucode Native File IO and JSON
+
+> **When to use:** Use when the data you need already lives in a JSON file and the script is written in ucode. In that situation, stay entirely inside the ucode runtime: read with `fs.readfile()` and parse with `json()`. Do not shell out to `cat`, `jq`, `jsonfilter`, `grep`, or `awk`.
+> **Key components:** ucode, fs module, `json()`
+> **Era:** Current (23.x+). Native file reads and native JSON parsing are the default ucode path for structured file input.
+
+## Overview
+
+The durable pattern is simple:
+
+1. read the file contents natively
+2. parse the JSON natively
+3. pull structured values from the parsed object
+4. handle missing files or bad JSON explicitly
+
+This matters because a repeated blind-failure pattern is to write a ucode script that immediately collapses into shell thinking: `cat /etc/my_app/config.json | jq ...`. That is both slower and less maintainable than the APIs the runtime already provides.
+
+## Complete Working Example
+
+```ucode
+#!/usr/bin/env ucode
+'use strict';
+
+import * as fs from 'fs';
+
+const path = '/etc/my_app/config.json';
+const raw = fs.readfile(path);
+
+if (raw == null)
+	die(`unable to read ${path}: ${fs.error()}\n`);
+
+let data;
+
+try {
+	data = json(raw);
+}
+catch (err) {
+	die(`invalid JSON in ${path}: ${err}\n`);
+}
+
+if (data?.startup_delay == null)
+	die(`missing startup_delay in ${path}\n`);
+
+print(`${data.startup_delay}\n`);
+```
+
+This is the whole pattern for the common case. The script stays inside ucode from start to finish, reads the file once, parses it once, and then accesses the key directly.
+
+## Step-by-Step Explanation
+
+### `fs.readfile()` is the normal file-read entry point
+
+```ucode
+const raw = fs.readfile('/etc/my_app/config.json');
+```
+
+Use `fs.readfile()` when the file is reasonably sized and the task is not line-streaming. That is the direct replacement for shelling out to `cat` from within ucode.
+
+### `json()` parses structured input directly
+
+```ucode
+data = json(raw);
+```
+
+`json()` is the built-in parser for JSON strings in ucode. It returns objects, arrays, numbers, booleans, and `null` in native ucode value form. There is no need for `jq` or `jsonfilter` once the script is already running inside the ucode runtime.
+
+### Handle bad files and bad JSON separately
+
+Treat these as different failures:
+
+- file could not be read
+- file contents are not valid JSON
+- JSON is valid but the key is missing
+
+Those are three different operational problems and they deserve three different error messages.
+
+### Keep this separate from UCI work
+
+If the data belongs in `/etc/config/`, switch to [UCI Read/Write from ucode](./chunked-reference/uci-read-write-from-ucode.md). This page is specifically for non-UCI JSON files and similar structured external input.
+
+## Anti-Patterns
+
+### WRONG: Shelling out to `cat` and `jq`
+
+```ucode
+let proc = fs.popen("cat /etc/my_app/config.json | jq -r .startup_delay", 'r');
+print(proc.read('all'));
+```
+
+**Why it fails:** This adds extra subprocesses, adds quoting and shell-fragility problems, and ignores the direct file and parser APIs the runtime already exposes.
+
+### WRONG: Parsing JSON with grep, sed, or awk
+
+```ucode
+let value = fs.popen("grep startup_delay /etc/my_app/config.json | awk -F: '{print $2}'", 'r').read('all');
+```
+
+**Why it fails:** JSON is a structured format. Text slicing works until whitespace, nesting, escaping, or formatting changes. The right abstraction already exists. Use it.
+
+### WRONG: Using UCI APIs for non-UCI JSON files
+
+```ucode
+import { cursor } from 'uci';
+const uci = cursor();
+uci.get('my_app', 'main', 'startup_delay');
+```
+
+**Why it fails:** UCI is the persistent config system for `/etc/config/*`, not a general parser for arbitrary JSON files. Use the right storage surface for the right task.
+
+## Related Topics
+
+- [UCI Read/Write from ucode](./chunked-reference/uci-read-write-from-ucode.md) - use this when the data should live in UCI instead of JSON files
+- [ucode rpcd Service Pattern](./chunked-reference/ucode-rpcd-service-pattern.md) - use this when the parsed data should be exposed through rpcd or ubus instead of printed directly
+- [Architecture Overview](./chunked-reference/architecture-overview.md) - use this when deciding whether data should stay in a file, move to UCI, or be surfaced through ubus
+- [ucode fs module reference](../ucode/chunked-reference/c_source-api-module-fs.md) - exact file and handle API details
+
+## Verification Notes
+
+- `fs.readfile(path, [limit])` verified from condensed corpus `ucode/c_source-api-module-fs.md`
+- `json()` semantics verified from current upstream ucode JSON tests under `tmp/authoring-repos/repo-ucode-full/tests/custom/03_stdlib/34_json`
+- native file-read plus parse blind spot verified by Scenario 13 in the frozen test pack and cross-batch synthesis
+- scenario packet reference for this page: `docs/plans/v14/openwrt-cookbook/artifacts/scenario-packets/02-scn-2026-002-ucode-native-json-file-read.yaml`
+- known limitation: this page covers native JSON file parsing, not streaming process output or UCI-backed configuration mutation
 
 ---
 

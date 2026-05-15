@@ -2,9 +2,9 @@
 title: ubus (OpenWrt micro bus architecture)
 module: wiki
 origin_type: wiki_page
-token_count: 6656
+token_count: 6881
 source_file: L1-raw/wiki/wiki_page-techref-ubus.md
-last_pipeline_run: '2026-04-01T13:49:08.540826+00:00'
+last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
 source_url: https://openwrt.org/docs/techref/ubus
 language: text
 ai_summary: Explains the OpenWrt ubus inter-process communication bus, which provides a Unix-socket-based RPC mechanism for daemons to expose services and receive method calls. Covers ubus object and method registration, the ubusd broker, ubus_context lifecycle, blob_buf message encoding, ubus_lookup, ubus_invoke, ubus_register_event_handler, and the acl JSON permission system.
@@ -21,7 +21,7 @@ ai_related_topics:
 
 > **Source:** [https://openwrt.org/docs/techref/ubus](https://openwrt.org/docs/techref/ubus)
 > **Kind:** wiki_page | **Method:** scraped
-> **Normalized:** 2026-04-01
+> **Normalized:** 2026-05-15
 
 # ubus (OpenWrt micro bus architecture)
 
@@ -235,6 +235,29 @@ This happens to be `rpcd` at the moment, with the `http-json` interface, for fri
                 "read": {
                         "ubus": {
                                 "session": [ "access", "login" ]
+                        }
+                }
+        }
+}
+```
+
+Each method for each object can be separately allowed in the `"ubus"`-mapping. In the previous example only `ubus call session access` and `ubus call session login` are allowed. It is possible to use `*` to match multiple objects or methods. For example:
+
+1.  All methods of `session`: `"session": ["*"]`
+2.  Method `get_client` of all objects beginning with `hostapd.`: `"hostapd.*": ["get_client"]`
+
+Certain objects or methods might require other permission outside the `"ubus"`-mapping. For example reading a file requires `read` permission for the file itself. In that case the permission to only read `/tmp/dhcp.leases` might look like the following:
+
+``` yaml
+{
+        "readleases": {
+                "read": {
+                        "file": {
+                                "/tmp/dhcp.leases": ["read"]
+                        },
+                        "ubus": {
+                                "session": [ "access", "login" ],
+                                "file": ["read"]
                         }
                 }
         }

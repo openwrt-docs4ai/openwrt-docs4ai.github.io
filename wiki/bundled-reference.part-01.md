@@ -1,18 +1,18 @@
 ---
 module: wiki
-total_token_count: 99226
+total_token_count: 99221
 section_count: 49
 is_monolithic: false
 is_sharded_part: true
 part_number: 1
 part_count: 2
-generated: '2026-04-01T13:49:25.808980+00:00'
+generated: '2026-05-15T22:05:35.320175+00:00'
 ---
 
 # wiki Bundled Reference (Part 1 of 2)
 
 > **Contains:** 49 documents
-> **Tokens:** ~99226 (cl100k_base)
+> **Tokens:** ~99221 (cl100k_base)
 > **Index:** [./bundled-reference.md](./bundled-reference.md)
 
 ---
@@ -2378,7 +2378,7 @@ Where possible, add your device to an existing block instead of creating a new o
 
 ### No wildcards
 
-Occationally, you might be tempted to use wildcards in a case like the following:
+Occasionally, you might be tempted to use wildcards in a case like the following:
 
     vendor_model-v1|\
     vendor_model-v2)
@@ -3814,7 +3814,7 @@ The [umdns](/packages/pkgdata/umdns) package provides a compact implementation o
 
 ### Configuration
 
-**I NEED HELP NAILING DOWN THE DEFAULT, AND THE [CORRECT](../cookbook/chunked-reference/uci-read-write-from-ucode.md) DESCRIPTION OF ALL THE FOLLOWING LINES**
+**I NEED HELP NAILING DOWN THE DEFAULT, AND THE [CORRECT](../cookbook/chunked-reference/luci-form-with-uci.md) DESCRIPTION OF ALL THE FOLLOWING LINES**
 
 **Hostname:** `umdns` advertises the hostname that is present in `/etc/config/system`.
 
@@ -6525,7 +6525,7 @@ This table lists the support status of various OpenWrt releases:
 
 | Version           | Current status       | Initial Release    | EoL (Projected)   | Latest Release | Release Date      |
 |:------------------|:---------------------|:-------------------|:------------------|:---------------|:------------------|
-| @lightgreen:25.12 | Supported            | 2026, March 06     | (2027, March)     | 25.12.1        | 2026, March 18    |
+| @lightgreen:25.12 | Supported            | 2026, March 06     | TBD               | 25.12.3        | 2026, May 07      |
 | @yellow:24.10     | Security Maintenance | 2025, February 06  | (2026, September) | 24.10.6        | 2026, March 18    |
 | @pink:23.05       | End of Life          | 2023, October 13   | 2025, August      | 23.05.6        | 2025, August 20   |
 | @pink:22.03       | End of Life          | 2022, September 06 | 2024, July        | 22.03.7        | 2024, July 25     |

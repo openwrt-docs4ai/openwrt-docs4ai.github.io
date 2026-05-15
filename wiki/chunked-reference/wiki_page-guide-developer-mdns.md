@@ -4,14 +4,23 @@ module: wiki
 origin_type: wiki_page
 token_count: 2298
 source_file: L1-raw/wiki/wiki_page-guide-developer-mdns.md
-last_pipeline_run: '2026-04-01T13:49:08.540826+00:00'
+last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
 source_url: https://openwrt.org/docs/guide-developer/mdns
 language: text
+ai_summary: The umdns package provides local DNS name resolution for OpenWrt routers, allowing services to be accessed via *hostname.local* instead of an IP address. It utilizes mDNS (multicast DNS), enabling automatic discovery of devices and services on the local network without requiring complex configuration. Installation is straightforward, available through the LuCI web interface or via `opkg install umdns`. Configuration options include setting the hostname, local domain, and specifying network interfaces for mDNS advertisement.
+ai_when_to_use: Use umdns when you want to simplify access to your OpenWrt router and its services on a local network without needing to remember IP addresses.
+ai_related_topics:
+- option hostname
+- option local
+- option domain
+- option jail
+- list network
+- config rule
 ---
 
 > **Source:** [https://openwrt.org/docs/guide-developer/mdns](https://openwrt.org/docs/guide-developer/mdns)
 > **Kind:** wiki_page | **Method:** scraped
-> **Normalized:** 2026-04-01
+> **Normalized:** 2026-05-15
 
 # umdns for Local Device Discovery
 
@@ -25,7 +34,7 @@ The [umdns](/packages/pkgdata/umdns) package provides a compact implementation o
 
 ### Configuration
 
-**I NEED HELP NAILING DOWN THE DEFAULT, AND THE [CORRECT](../../cookbook/chunked-reference/uci-read-write-from-ucode.md) DESCRIPTION OF ALL THE FOLLOWING LINES**
+**I NEED HELP NAILING DOWN THE DEFAULT, AND THE [CORRECT](../../cookbook/chunked-reference/luci-form-with-uci.md) DESCRIPTION OF ALL THE FOLLOWING LINES**
 
 **Hostname:** `umdns` advertises the hostname that is present in `/etc/config/system`.
 

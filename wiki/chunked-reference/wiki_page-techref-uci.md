@@ -2,9 +2,9 @@
 title: UCI (Unified Configuration Interface) – Technical Reference
 module: wiki
 origin_type: wiki_page
-token_count: 4223
+token_count: 4222
 source_file: L1-raw/wiki/wiki_page-techref-uci.md
-last_pipeline_run: '2026-04-01T13:49:08.540826+00:00'
+last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
 source_url: https://openwrt.org/docs/techref/uci
 language: text
 ai_summary: Documents the OpenWrt Unified Configuration Interface (UCI) — the standard system for storing and modifying router configuration. Explains the /etc/config/ text file format, section and option syntax, the uci CLI (uci set/get/add/delete/commit/revert), the C library API (uci_load, uci_set, uci_commit), and batch-change semantics where changes stay staged in memory until commit.
@@ -21,7 +21,7 @@ ai_related_topics:
 
 > **Source:** [https://openwrt.org/docs/techref/uci](https://openwrt.org/docs/techref/uci)
 > **Kind:** wiki_page | **Method:** scraped
-> **Normalized:** 2026-04-01
+> **Normalized:** 2026-05-15
 
 # UCI (Unified Configuration Interface) – Technical Reference
 
@@ -499,9 +499,9 @@ And examples on how to use UCI in C can be found in this thread: <https://forum.
 
 Assuming you already have the following packages installed: [install-buildsystem](/docs/guide-developer/toolchain/install-buildsystem).
 
-Additional packages required (package names for ubuntu):
+Additional packages required (package names for debian/ubuntu):
 
-    cmake pkgconf python3.13-venv valgrind
+    cmake pkgconf python3-venv valgrind
 
 Clone the repo. Run:
 

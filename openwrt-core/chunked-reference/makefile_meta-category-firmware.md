@@ -2,18 +2,31 @@
 title: 'OpenWrt Buildroot: firmware packages'
 module: openwrt-core
 origin_type: makefile_meta
-token_count: 1435
+token_count: 1431
 source_file: L1-raw/openwrt-core/makefile_meta-category-firmware.md
-last_pipeline_run: '2026-04-01T13:49:08.540826+00:00'
+last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
 source_commit: unknown
 source_url: https://github.com/openwrt/openwrt/blob/unknown/package/firmware
 source_locator: package/firmware
 language: makefile
+ai_summary: The OpenWrt Buildroot firmware packages module provides various firmware options for different hardware components used in OpenWrt devices. It includes specific firmware packages like ath10k-ct-firmware, ath11k-firmware, and others, each tailored for particular chipsets and functionalities. These packages are essential for ensuring compatibility and optimal performance of wireless and networking features on supported devices. Users must be cautious about conflicts, such as those between different ath10k firmware versions, and should only select one at a time.
+ai_when_to_use: Use this module when building OpenWrt images that require specific firmware for wireless chipsets or other hardware components. It is particularly useful for developers needing to customize firmware options for their devices.
+ai_related_topics:
+- ath10k-ct-firmware
+- ath11k-firmware
+- broadcom-sprom
+- cypress-firmware
+- cypress-nvram
+- intel-microcode
+- ipq-wifi
+- ixp4xx-microcode
+- linux-firmware
+- murata-firmware
 ---
 
 > **Source:** [https://github.com/openwrt/openwrt/blob/unknown/package/firmware](https://github.com/openwrt/openwrt/blob/unknown/package/firmware)
 > **Kind:** makefile_meta | **Commit:** unknown | **Method:** normalized
-> **Normalized:** 2026-04-01
+> **Normalized:** 2026-05-15
 
 # OpenWrt Buildroot: firmware packages
 
@@ -101,7 +114,7 @@ This package contains the microcode needed to use the network engines in IXP4xx 
 | Field | Value |
 |---|---|
 | Version | 2.4 |
-| Source URL | http://downloads.openwrt.org/sources |
+| Source URL | @OPENWRT |
 
 
 > Source: https://github.com/openwrt/openwrt/tree/master/package/firmware/ixp4xx-microcode
@@ -111,7 +124,7 @@ This package contains the microcode needed to use the network engines in IXP4xx 
 
 | Field | Value |
 |---|---|
-| Version | 20260309 |
+| Version | 20260410 |
 | Maintainer | Felix Fietkau <nbd@nbd.name> |
 | Source URL | @KERNEL/linux/kernel/firmware |
 
@@ -166,7 +179,7 @@ Firmware binaries for the microcontroller on the Turris Omnia router. These are 
 
 | Field | Value |
 |---|---|
-| Version | 2026.02.04 |
+| Version | 2026.03.18 |
 | License | ISC |
 | Maintainer | Felix Fietkau <nbd@nbd.name> include $(INCLUDE_DIR)/[package.mk](../../openwrt-core/chunked-reference/makefile_meta-include-mk.md) define Package/wireless-regdb PKGARCH:=all SECTION:=firmware CATEGORY:=Firmware URL:=https://git.kernel.org/pub/scm/linux/kernel/git/wens |
 | Source URL | @KERNEL/software/network/wireless-regdb/ |

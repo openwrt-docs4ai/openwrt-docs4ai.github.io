@@ -2,20 +2,26 @@
 title: DFS
 module: wiki
 origin_type: wiki_page
-token_count: 694
+token_count: 736
 source_file: L1-raw/wiki/wiki_page-techref-dfs.md
-last_pipeline_run: '2026-04-01T13:49:08.540826+00:00'
+last_pipeline_run: '2026-05-15T22:05:16.473346+00:00'
 source_url: https://openwrt.org/docs/techref/dfs
 language: text
+ai_summary: The DFS (Dynamic Frequency Selection) module in OpenWrt manages the use of 5GHz WLAN channels that may overlap with weather radar frequencies, ensuring compliance with regulations such as those outlined in 802.11h. It is utilized during Automatic Channel Selection (ACS) in hostapd to identify and select available channels. Different hardware drivers provide varying levels of DFS support, including ath9k, ath10k, and mt76, with some limitations based on regulatory schemes like DFS-FCC and DFS-ETSI. Users should be aware of potential interoperability issues due to changing hardware and regulatory compliance, as well as the availability of proprietary drivers that may offer additional DFS functionality.
+ai_when_to_use: Use the DFS module when configuring 5GHz WLAN channels in OpenWrt to ensure compliance with local regulations and optimize channel selection. It is particularly relevant for environments where radar interference is a concern.
+ai_related_topics:
+- Dynamic_frequency_selection
+- 802.11h
+- ACS
 ---
 
 > **Source:** [https://openwrt.org/docs/techref/dfs](https://openwrt.org/docs/techref/dfs)
 > **Kind:** wiki_page | **Method:** scraped
-> **Normalized:** 2026-04-01
+> **Normalized:** 2026-05-15
 
 # DFS
 
-[Dynamic_frequency_selection](https://en.wikipedia.org/wiki/Dynamic_frequency_selection) plays a role in 5GHz frequencies that are shared with [Terminal_Doppler_Weather_Radar](https://en.wikipedia.org/wiki/Terminal_Doppler_Weather_Radar). It is related to [802.11h](https://en.wikipedia.org/wiki/IEEE_802.11h).
+[Dynamic Frequency Selection](https://en.wikipedia.org/wiki/Dynamic_frequency_selection) plays a role in 5GHz frequencies that are shared with [Terminal Doppler Weather Radar (TDWR)](https://en.wikipedia.org/wiki/Terminal_Doppler_Weather_Radar). It is related to [802.11h](https://en.wikipedia.org/wiki/IEEE_802.11h).
 
 DFS support is used during ACS/"survey" in [hostapd](/docs/guide-user/network/wifi/wireless-tool/wireless.utilities#hostapd) to find and select free WLAN channels.
 
@@ -30,6 +36,8 @@ Many countries regulate operation of the 5GHz spectrum - see [List_of_WLAN_chann
 :!: There are different DFS schemes: DFS-FCC (USA), DFS-ETSI (Europe), DFS-JP (Japan).
 
 :!: Try to use the non DFS channels if you have older wifi hardware/wifi clients.
+
+**In addition**: See also FAQ - [What does DFS mean?](/faq/what_does_dfs_mean) & [Wireless FAQ section](/tag/wireless) for more information.
 
 ## DFS support
 

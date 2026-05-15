@@ -15,6 +15,24 @@ declare module "buffer" {
     export function start(______buffer____module_struct_buffer: any): any;
 }
 
+declare module "channel" {
+    export function defer(method: any, data?: any, cb?: any, data_cb?: any, fd?: any, _fd_cb_______deferred____module_ubus_deferred: any): any;
+    export function error(numeric?: any): any;
+    export function request(method: any, data?: any, return?: any, fd?: any, fd_cb?: any): any;
+}
+
+declare module "connection" {
+    export function call(object: any, method: any, data?: any, return?: any, fd?: any, fd_cb?: any): any;
+    export function defer(object: any, method: any, data?: any, cb?: any, data_cb?: any, fd?: any, _fd_cb_______deferred____module_ubus_deferred: any): any;
+    export function disconnect(): any;
+    export function error(numeric?: any): any;
+    export function event(event_type: any, event_data?: any): any;
+    export function list(object_name?: any): any;
+    export function listener(pattern: any, cb______listener____module_ubus_listener: any): any;
+    export function publish(object_name: any, methods?: any, _subscribe_callback_______object____module_ubus_object: any): any;
+    export function subscriber(notify_callback: any, remove_callback: any, _subscription_patterns_______subscriber____module_ubus_subscriber: any): any;
+}
+
 declare module "cursor" {
     export function ChangeRecord(): any;
     export function ParserFlags(): any;
@@ -55,6 +73,12 @@ declare module "debug" {
     export function traceback(_level_______Array__StackTraceEntry_____module_debug_StackTraceEntry: any): any;
 }
 
+declare module "deferred" {
+    export function abort(): any;
+    export function await(): any;
+    export function completed(): any;
+}
+
 declare module "deflate" {
     export function error(): any;
     export function read(): any;
@@ -62,6 +86,7 @@ declare module "deflate" {
 }
 
 declare module "digest" {
+    export function fnv1a64(): any;
     export function md2(): any;
     export function md4(): any;
     export function md5(): any;
@@ -120,9 +145,7 @@ declare module "fs" {
     export function open(path: any, mode?: any, _perm_______file____module_fs_file: any): any;
     export function opendir(path______dir____module_fs_dir: any): any;
     export function pipe(______Array__file_____module_fs_file: any): any;
-    export function popen(command: any, _mode_______proc____module_fs_proc: any): any;
     export function proc(): any;
-    export function readfile(path: any, limit?: any): any;
     export function readlink(path: any): any;
     export function realpath(path: any): any;
     export function rename(oldPath: any, newPath: any): any;
@@ -185,6 +208,7 @@ declare module "io" {
 
 declare module "listener" {
     export function close(): any;
+    export function remove(): any;
     export function set(): any;
 }
 
@@ -207,10 +231,12 @@ declare module "math" {
     export function abs(number: any): any;
     export function atan2(y: any, x: any): any;
     export function cos(x: any): any;
+    export function deg2rad(number: any): any;
     export function exp(x: any): any;
     export function isnan(x: any): any;
     export function log(x: any): any;
     export function pow(x: any, y: any): any;
+    export function rad2deg(number: any): any;
     export function rand(a?: any, b?: any): any;
     export function sin(x: any): any;
     export function sqrt(x: any): any;
@@ -219,6 +245,17 @@ declare module "math" {
 
 declare module "nl80211" {
     export function listener(): any;
+}
+
+declare module "notify" {
+    export function abort(): any;
+    export function completed(): any;
+}
+
+declare module "object" {
+    export function notify(type: any, data?: any, data_cb?: any, status_cb?: any, cb?: any, _timeout_______notify____module_ubus_notify: any): any;
+    export function remove(): any;
+    export function subscribed(): any;
 }
 
 declare module "pipe" {
@@ -240,6 +277,15 @@ declare module "proc" {
 declare module "process" {
     export function delete(): any;
     export function pid(): any;
+}
+
+declare module "request" {
+    export function defer(): any;
+    export function error(rcode?: any): any;
+    export function get(): any;
+    export function new(): any;
+    export function reply(data: any): any;
+    export function set(): any;
 }
 
 declare module "resolv" {
@@ -301,6 +347,12 @@ declare module "struct" {
     export function unpack(format: any, input: any, offset?: any): any;
 }
 
+declare module "subscriber" {
+    export function remove(): any;
+    export function subscribe(object_name: any): any;
+    export function unsubscribe(object_name: any): any;
+}
+
 declare module "task" {
     export function finished(): any;
     export function kill(): any;
@@ -313,6 +365,21 @@ declare module "timer" {
     export function set(timeout?: any): any;
 }
 
+declare module "ubus" {
+    export function channel(): any;
+    export function connect(socket?: any, _timeout_______connection____module_ubus_connection: any): any;
+    export function connection(): any;
+    export function deferred(): any;
+    export function error(numeric?: any): any;
+    export function guard(handler?: any): any;
+    export function listener(): any;
+    export function notify(): any;
+    export function object(): any;
+    export function open(): any;
+    export function request(): any;
+    export function subscriber(): any;
+}
+
 declare module "uci" {
     export function cursor(): any;
     export function error(): any;
@@ -323,12 +390,10 @@ declare module "uloop" {
     export function done(): any;
     export function end(): any;
     export function error(): any;
-    export function handle(): any;
     export function init(): any;
     export function interval(): any;
     export function pipe(): any;
     export function process(): any;
-    export function run(timeout?: any): any;
     export function running(): any;
     export function signal(): any;
     export function task(): any;

@@ -3,7 +3,7 @@ module: openwrt-core
 total_token_count: 23222
 section_count: 7
 is_monolithic: true
-generated: '2026-05-15T22:43:12.196262+00:00'
+generated: '2026-05-16T04:25:27.300726+00:00'
 ---
 
 # openwrt-core Bundled Reference

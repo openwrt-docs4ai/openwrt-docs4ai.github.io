@@ -4,7 +4,7 @@ module: luci-examples
 origin_type: example_app
 token_count: 924
 source_file: L1-raw/luci-examples/example_app-luci-app-example-htdocs-luci-static-resources-view-example-rpc-jsonmap-typedsection-js.md
-last_pipeline_run: '2026-05-15T22:42:53.355147+00:00'
+last_pipeline_run: '2026-05-16T04:25:08.430675+00:00'
 source_commit: unknown
 source_url: https://github.com/openwrt/luci/blob/unknown/applications/luci-app-example/htdocs/luci-static/resources/view/example/rpc-jsonmap-typedsection.js
 source_locator: applications/luci-app-example/htdocs/luci-static/resources/view/example/rpc-jsonmap-typedsection.js
@@ -21,7 +21,7 @@ ai_related_topics:
 
 > **Source:** [https://github.com/openwrt/luci/blob/unknown/applications/luci-app-example/htdocs/luci-static/resources/view/example/rpc-jsonmap-typedsection.js](https://github.com/openwrt/luci/blob/unknown/applications/luci-app-example/htdocs/luci-static/resources/view/example/rpc-jsonmap-typedsection.js)
 > **Kind:** example_app | **Commit:** unknown | **Method:** normalized
-> **Normalized:** 2026-05-15
+> **Normalized:** 2026-05-16
 
 # rpc-jsonmap-typedsection.js
 ```javascript

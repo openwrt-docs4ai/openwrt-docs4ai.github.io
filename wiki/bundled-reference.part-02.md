@@ -6,7 +6,7 @@ is_monolithic: false
 is_sharded_part: true
 part_number: 2
 part_count: 2
-generated: '2026-05-16T04:25:27.300726+00:00'
+generated: '2026-05-16T04:56:46.303553+00:00'
 ---
 
 # wiki Bundled Reference (Part 2 of 2)

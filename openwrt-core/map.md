@@ -1,7 +1,7 @@
 # openwrt-core Navigation Map
 
 > **Contains:** Headers and function signatures for openwrt-core.
-> **Generated:** 2026-05-16T04:25:27.300726+00:00
+> **Generated:** 2026-05-16T04:56:46.303553+00:00
 
 ---
 
